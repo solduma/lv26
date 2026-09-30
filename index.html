@@ -436,9 +436,9 @@ section{position:relative}
 .rmodal__res[data-lv="2"]{color:#ffd7d0;background:rgba(255,86,86,.2);border:1px solid rgba(255,110,110,.55)}
 .rmodal__res[data-lv="1"]{color:#cfe0ff;background:rgba(96,140,255,.18);border:1px solid rgba(120,160,255,.5)}
 .rmodal__res[hidden]{display:none}
-.rmodal__kr{display:inline-block;margin:0 8px 10px 0;font-size:11px;font-weight:800;letter-spacing:.08em;color:#eaf1ff;
+.rmodal__rec{display:inline-block;margin:0 8px 10px 0;font-size:11px;font-weight:800;letter-spacing:.08em;color:#eaf1ff;
   background:linear-gradient(100deg,#1e4fd8,#0b7fc7);padding:4px 11px;border-radius:999px;vertical-align:2px;white-space:nowrap}
-.rmodal__kr[hidden]{display:none}
+.rmodal__rec[hidden]{display:none}
 .rmodal__tag{
   display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--gold);margin-bottom:8px;
@@ -506,7 +506,7 @@ section{position:relative}
 .rchip .rflag--r2,.mt .rflag--r2{color:#ffc9c1;background:rgba(255,86,86,.2);border:1px solid rgba(255,110,110,.45)}
 .rflag--r1{color:#c9dbff;background:rgba(96,140,255,.18);border:1px solid rgba(120,160,255,.42)}
 .rflag--cf{color:#e8caa0;background:rgba(190,130,60,.2);border:1px solid rgba(205,155,85,.45)}
-.rchip .rflag--kr,.mt .rflag--kr{color:#dce8ff;background:linear-gradient(100deg,rgba(30,79,216,.34),rgba(11,127,199,.3));border:1px solid rgba(90,150,240,.55)}
+.rchip .rflag--rec,.mt .rflag--rec{color:#d3f5e0;background:linear-gradient(100deg,rgba(24,150,96,.32),rgba(16,110,80,.28));border:1px solid rgba(70,200,150,.5)}
 .mt .rflag{display:inline-block;margin:0 0 0 4px;font-size:10px;font-style:normal;color:inherit;line-height:1.5}
 .legendline{margin-top:10px !important;font-size:12.5px !important;color:var(--dim) !important;line-height:2.1}
 .legendline .rflag{margin-right:5px}
@@ -584,7 +584,7 @@ footer a{color:var(--muted)}
     </button>
     <button class="ptab" role="tab" id="pg3" aria-controls="p-food" aria-selected="false">
       <span class="ptab__i">🍽</span>
-      <span class="ptab__t">식당 정보<small>80곳 · 한국인 필수 11곳</small></span>
+      <span class="ptab__t">식당 정보<small>80곳 · 추천 11곳</small></span>
     </button>
   </div>
 </nav>
@@ -2772,8 +2772,8 @@ footer a{color:var(--muted)}
       </div>
     </div>
     <div class="reveal" style="margin-top:34px">
-      <h3 style="margin:0 0 4px">🇰🇷 한국인이 꼭 가야 할 곳</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">한국 기준으로만 의미가 있는 곳입니다 · 채이나타운(스프링 마운틴로·레이보우)이 대부분 몰려 있습니다</p>
+      <h3 style="margin:0 0 4px">✨ 추천 장소</h3>
+      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">한국 기준으로 의미가 있는 곳 · 채이나타운(스프링 마운틴로·레이보우)에 대부분 몰려 있습니다</p>
       <div class="rlist" data-group="korea">
         <button class="rchip is-star" data-r="kgbbq" type="button"><span class="rchip__star">★</span><b>KG BBQ (Korean Garden)</b><span>차이나타운 · 무한리필 $40</span></button>
         <button class="rchip" data-r="dohbbq" type="button"><b>Doh Korean BBQ</b><span>S Rainbow · 24시간 무한리필</span></button>
@@ -2950,7 +2950,7 @@ footer a{color:var(--muted)}
     <button class="rmodal__x" type="button" data-close aria-label="닫기">×</button>
     <span class="rmodal__star" id="rmodal-star" hidden>★ MUST TRY</span>
     <span class="rmodal__res" id="rmodal-res" hidden></span>
-    <span class="rmodal__kr" id="rmodal-kr" hidden>🇰🇷 한국인 필수</span>
+    <span class="rmodal__rec" id="rmodal-rec" hidden>추천</span>
     <span class="rmodal__tag" id="rmodal-tag"></span>
     <div class="rmodal__name" id="rmodal-name"></div>
     <dl id="rmodal-dl"></dl>
@@ -3102,7 +3102,7 @@ footer a{color:var(--muted)}
       m:'불고기 피자, 김치 볶음밥, 라구비아',res:1,star:1,r:'점심 대기·예약 권장',
       t:'이 일정에서 한국식으로 먹을 수 있는 거의 유일한 곳입니다. 7세는 피자, 70세는 볶음밥으로 한 끼 안에서 요구를 모두 맞출 수 있습니다.'},
     dtf:{g:'중식 · 만두 · 훠라면',w:'**ARIA 리조트** — MGM 안이 아님',h:'매일 11:00~22:00',p:'$$ (1인 $18~30)',
-      m:'소면관만두(샤오룽바오), 볶음밥, 만둣국',kr:1,star:1,r:'점심 피크 대기 20~40분',
+      m:'소면관만두(샤오룽바오), 볶음밥, 만두국',rec:1,star:1,r:'점심 피크 대기 20~40분',
       t:'만두가 시그니처라 7세가 좋아합니다. 줄이 곧게 서 있어 70세에게 피곤하니 11시 반이나 13시 이후로 피하는 게 좋습니다. MGM에서 차 5분.'},
     america:{g:'아메리칸 캐주얼',w:'**New York-New York** — MGM 안이 아님',h:'늦은 시간까지 (브런치·야식 겸용)',p:'$$ (1인 $15~28)',
       m:'버거, 샌드위치, 수프, 케이크, 맥주',r:'대기 거의 없음',
@@ -3254,7 +3254,7 @@ footer a{color:var(--muted)}
       m:'차슈바오, 볶음면, 만두, 볶음밥, 초밥, 게살',r:'현장 대기',coffee:1,
       t:'**MGM 근처에서찾을 수 있는 헤어려에 제일 가까운 중국식 뷔페입니다.** 중식만 먹는 집이라 아메리칸 요리를 원하는 7세는 초밥 코너로, 70세는 차슈바오로 갈 수 있습니다. 리뷰 평가는 양호하지만 "가성비가 그만큼"이라는 평가가 많습니다.'},
     palacefeast:{g:'혼합 뷔페 (중식 코너 있음)',w:'**Palace Station (2411 W Sahara Ave)** — MGM에서 차 5분',h:'조식 월~토 08:00~11:00 · 일요일 브런치 08:00~16:00',p:'$ (조식 $13.99 / 일 브런치 $22.99, 플레이어 카드로 더 저렴)',
-      m:'자이차우, 볶음밥, 만둣국, 차슈, 중식 죽, 팬케이크·해시브라운',r:'현장 대기',coffee:1,
+      m:'자이차우, 볶음밥, 만두국, 차슈, 중식 죽, 팬케이크·해시브라운',r:'현장 대기',coffee:1,
       t:'주방에서 즉석으로 볶아 주는 방식이라 중국 코너가 평이 가장 좋은 쪽입니다. **카지노 회원 카드를 들면 같은 자리에서 몇 달러 더 싸집니다** — 카운터에서 카드만 제시하면 됩니다. 팬케이크를 굽는 그릴도 있어 7세 만족도가 높습니다.'},
     dennys:{g:'아메리칸 다이너 · 24시간',w:'**3010 W Sahara Ave** — MGM에서 차 3분',h:'24시간 (조식도 밤중까지)',p:'$ (1인 $12~25)',
       m:'팬케이크 플램, 오멜렛, 스키틀, 버퍼 와이프',r:'현장 대기 · 02~06시 혼잡',coffee:1,
@@ -3293,36 +3293,36 @@ footer a{color:var(--muted)}
     crazyshake:{g:'과하게 장식된 밀크셰이크',w:'**Black Tap (Venetian)** — MGM에서 차 20분',h:'11:00~23:00 무렵',p:'$$ (1인 $15~20)',
       m:'쿠키앤크림 서프림, 추로 초코 타코, 오레오 선베이크 셰이크',r:'대기 보통',dessert:1,
       t:'컵 위에 케이크 조각과 쿠키를 잔뜩 올려 나오는 샐이크입니다. **7세가 이번 여행에서 가장 좋아할 디저트 중 하나**이긴 한데, 그래서인지 성인 한 잔 값이 나갑니다. 아무리 맛있어도 한 잔 나누어 먹는 걸 권합니다.'},
-    /* ---- 한국인 필수 (한국 기준 추천) ---- */
+    /* ---- 추천 (한국 기준으로 의미 있는 곳) ---- */
     kgbbq:{g:'한식 무한리필 바베큐',w:'**4355 Spring Mountain Rd #201 (차이나타운)** — MGM에서 차 8분',h:'일~목 11:00~22:00 · 금·토 11:00~01:00',p:'$$ ($39.90 무한리필)',
-      m:'갈비, 불고기, 차돌박이, 돼지갈비, 냉면, 비빔밥, 해장국, 떡만두국, 잡채, 김치전, 육개장',r:'**예약 권장** · 6인 이상 18% 서비스',kr:1,kid:1,star:1,
-      t:'**라스베이거스에서 한국인이 가장 많이 가는 한식당입니다.** 4355 Spring Mountain Rd와 4155번(99 Ranch)이 건물 반대편이라 한 번 나가면 둘 다 해결됩니다. 직접 만드는 반찬과 김치가 호평을 받고, 넓고 깨끗해 7세·70세가 함께 가기 가장 편한 곳입니다. **다만 배후가 매우 높습니다 일부가 옷에 튀고, 같은 같은 메뉴 반복 주문에 제한이 있으니 규칙은 입구에서 확인하세요.**'},
+      m:'갈비, 불고기, 차돌박이, 돼지갈비, 냉면, 비빔밥, 해장국, 떡만두국, 잡채, 김치전, 육개장',r:'**예약 권장** · 6인 이상 18% 서비스',rec:1,kid:1,star:1,
+      t:'**라스베이거스에서 한국인이 가장 많이 가는 한식당입니다.** 4355 Spring Mountain Rd와 4155번(99 Ranch)이 건물 반대편이라 한 번 나가면 둘 다 해결됩니다. 직접 만드는 반찬과 김치가 호평을 받고, 넓고 깨끗해 7세·70세가 함께 가기 가장 편한 곳입니다. **다만 배후가 높아 기름이 튀고, 같은 메뉴의 반복 주문에는 제한이 있으니 규칙은 입구에서 확인하세요.**'},
     dohbbq:{g:'한식 무한리필 바베큐',w:'**7920 S Rainbow Blvd #105** — MGM에서 차 20분',h:'매일 11:30~24:00',p:'$$ ($11~30 구간)',
-      m:'소갈비살, 차돌박이, 갈비찜, 라면, 만두, 불고기, 밥',r:'**예약 필요할 수 있음** · 늦게까지 열림',kr:1,
+      m:'소갈비살, 차돌박이, 갈비찜, 라면, 만두, 불고기, 밥',r:'**예약 필요할 수 있음** · 늦게까지 열림',rec:1,
       t:'**한국인 입맛 기준으로 매일 늦게(24:00)까지 불판이 꺼지지 않는 곳입니다.** 11/28(토) 저녁이 비는 날이나 11/29(일) O 쇼(20:30 종료) 뒤 야식으로 가기 좋습니다. 라면 굽기와 코스 반찬이 후기가 좋습니다.'},
     ranch99:{g:'한식·아시아 식재료 마트',w:'**4155 W Spring Mountain Rd (차이나타운)** — MGM에서 차 8분',h:'매일 08:00~22:00',p:'$ (식재료 구매)',
-      m:'김치, 반찬, 만두피, 고춧가루, 소주, 즉석 밥, 냉동 제육, 유제품',r:'대기 없음 · 카트 사용',kr:1,
-      t:'**한국인이 "한 집은 사 두어야겠다"고 하는 마트입니다.** 한국 식재료와 소주·참치마요네즈가스트립몰보다 싸고, KG BBQ 바로 건물 반대편이라 한 번에 묶습니다. **리뷰에 "오래되어 어지럽다"는 말이 반복되는 점은 미리 알아두세요** — 물건은 잘 갖춰져 있지만 매장 상태는 개운한 편이 아닙니다.'},
+      m:'김치, 반찬, 만두피, 고춧가루, 소주, 즉석 밥, 냉동 제육, 유제품',r:'대기 없음 · 카트 사용',rec:1,
+      t:'**한국인이 "한 집은 사 두어야겠다"고 하는 마트입니다.** 한국 식재료와 소주·참치 마요네즈가 스트립몰보다 싸고, KG BBQ 바로 건물 반대편이라 한 번에 묶습니다. **리뷰에 "오래되어 어지럽다"는 말이 반복되는 점은 미리 알아두세요** — 물건은 잘 갖춰져 있지만 매장 상태는 개운한 편이 아닙니다.'},
     hmart:{g:'한인 마트 (국민 마트)',w:'**H Mart Las Vegas 지점 (Nevada 89102)** — MGM에서 차 10~15분',h:'대체로 09:00~22:00 (지점별 상이)',p:'$',
-      m:'가전·생활용품, 화장품, 식재료, 즉석밥, 한국 제약·식품',r:'대기 없음',kr:1,
-      t:'한국에서 파는 생활용품과 식품이 가격이 가장 싸고, 한국 사람이 많아 한국어로 물어보면 됩니다. **직원은 한국인이 대부분이라 70세가 한국어로 주문하거나 낯선 걸 찾기 가장 편한 곳입니다.** 지점 주소·영업시간은 출발 전 H Mart 공식 웹사이트의 매장 찾기로 재확인하세요.'},
+      m:'가전·생활용품, 화장품, 식재료, 즉석밥, 한국 제약·식품',r:'대기 없음',rec:1,
+      t:'한국에서 파는 생활용품과 식품의 가격이 가장 싸고, 한국 사람이 많아 한국어로 물어보면 됩니다. **직원은 한국인이 대부분이라 70세가 한국어로 주문하거나 낯선 걸 찾기 가장 편한 곳입니다.** 지점 주소·영업시간은 출발 전 H Mart 공식 웹사이트의 매장 찾기로 재확인하세요.'},
     kspa:{g:'족욕 · 발마사지 · 스파',w:'**4083 Spring Mountain Rd (차이나타운)** — MGM에서 차 8분',h:'월·목·금·일 08:30~21:00 · 화·수 09:00~21:00',p:'$ (60분 $60~90 대로)',
-      m:'발마사지(족욕), 딥 티슈, 핫스톤, 쿠핑, 페디커',r:'**예약 권장** · 화·수 $5 할인',kr:1,coffee:0,
-      t:'**한국인이라면 체크인 첫날이나 마지막 날에 넣는 루틴입니다.** 발 마사지 60분이 대로 $55~90인데 이 부위가 가장 값싸고, 리뷰 1,500개 넘게 모인 곳이라 생활이 익숙하고 익숙합니다. **7세는 옆에서 짧게 받으면 되고, 부모님과 묶어 예약하면 한 방에 됩니다.**'},
+      m:'발마사지(족욕), 딥 티슈, 핫스톤, 쿠핑, 페디커',r:'**예약 권장** · 화·수 $5 할인',rec:1,coffee:0,
+      t:'**한국인이라면 체크인 첫날이나 마지막 날에 넣는 루틴입니다.** 발 마사지 60분이 대로 $55~90인데 이 부위가 가장 값싸고, 리뷰 1,500개 넘게 모인 곳이라 한국 사람에게 익숙합니다. **7세는 옆에서 짧게 받으면 되고, 부모님과 묶어 예약하면 한 방에 됩니다.**'},
     shiki:{g:'마사지 · 발마사지',w:'**4840 Spring Mountain Rd Unit 2&3 (차이나타운)** — MGM에서 차 8분',h:'매일 09:00~21:00',p:'$ (60분 $55 프로모션)',
-      m:'발마사지, 일반 마사지, 쿠핑(부하 마사지',r:'대기 보통',kr:1,
+      m:'발마사지, 일반 마사지, 쿠핑 부항 마사지',r:'대기 보통',rec:1,
       t:'K Spa와 같은 거리(스프링 마운틴로)에 있어 **두 곳을 비교해 보고 고르는 것도 가능합니다.** 60분 $55 프로모션이 올라가 있습니다. 예약은 전화로도 되니 영어가 안 되면 전화가 편합니다.'},
     northpremium:{g:'아울렛 쇼핑몰',w:'**875 S Grand Central Pkwy** — MGM에서 차 25분 (북쪽)',h:'월~토 10:00~20:00 · 일 11:00~19:00',p:'무료 입장',
-      m:'Nike, Adidas, Coach, Michael Kors, Tommy Hilfiger, Banana Republic Factory, Guess, Disney Store Outlet 등 180+ 매장',r:'주말 방문객 많음',kr:1,
-      t:'**한국인이 "정말 산다"고 할 때 가는 곳이 스트립이 아니라 여기입니다.** 스트립 몰은 먼지가 심해 진짜 물건이 적고 가격도 관광객 마크가 붙어 있습니다. 여기는 코치·나이키·나이키·아디다스가 2~4천 원대부터 있습니다. **11/28(토) 저녁이 비는 날 오후에 쓰면 동선이 가장 좋습니다.**'},
+      m:'Nike, Adidas, Coach, Michael Kors, Tommy Hilfiger, Banana Republic Factory, Guess, Disney Store Outlet 등 180+ 매장',r:'주말 방문객 많음',rec:1,
+      t:'**한국인이 "정말 산다"고 할 때 가는 곳이 스트립이 아니라 여기입니다.** 스트립 몰은 먼지가 심해 진짜 물건이 적고 가격도 관광객 마크가 붙어 있습니다. 여기는 코치·나이키·아디다스 같은 브랜드가 2~4천 원대부터 있습니다. **11/28(토) 저녁이 비는 날 오후에 쓰면 동선이 가장 좋습니다.**'},
     southpremium:{g:'아울렛 쇼핑몰',w:'**7400 Las Vegas Blvd S** — MGM에서 차 15분 (남쪽)',h:'월~토 10:00~20:00 · 일 10:00~19:00',p:'무료 입장',
-      m:'Nike, Adidas, Coach, Michael Kors, Crocs 등',r:'  comparatively',kr:1,
+      m:'Nike, Adidas, Coach, Michael Kors, Crocs 등',r:'여유가 있고',rec:1,
       t:'북쪽(180+ 매장)보다 규모가 작지만 **12/4(금) MGM에서 공항으로 가는 I-15 위에 있어서 렌터카를 받으러 가는 길에 붙일 수 있습니다.**'},
     fashionmall:{g:'스트립 안쪽 대형 백화몰',w:'**Fashion Show Mall (Ventura Blvd)** — MGM에서 차 5분',h:'매일 10:00~22:00 무렵',p:'무료 입장',
-      m:'Bloomingdale’s, Macy’s, 대형 브랜드, 식당가, 관람차',r:'주말 혼잡',kr:1,
+      m:'Bloomingdale’s, Macy’s, 대형 브랜드, 식당가, 관람차',r:'주말 혼잡',rec:1,
       t:'스트립 안에서 쇼핑하려면 실질적으로 이 몰과 Forum Shops가 두 곳입니다. **관람차(오전 11시 전후, 7세에게 인기가 많음)를 타려면 여기까지 한 번 옴** — MGM에서 차 5분이니 비용 대비가 낫습니다.'},
     casino:{g:'카지노 (입장 무료 · 초보 체험)',w:'**MGM Grand / Bellagio / 만달레이베이** — 숙소 바로 옆',h:'24시간',p:'무료 입장 (음료·주사위는 별도)',
-      m:'초보용: 슬롯머신 100~500달러 정도만 넣고 도박',r:'입장·이용은 연령 제한 없음 (주사위 구매는신분증 필요)',kr:1,
+      m:'초보용: 슬롯머신 100~500달러 정도만 넣고 도박',r:'입장·이용은 연령 제한 없음 (주사위 구매는 신분증 필요)',rec:1,
       t:'**한국인이 처음이면 "칩은 카운터에서 환전"부터 하면 됩니다.** 호텔 안 카지노는 입장도 무료이므로 7세와 함께 구경만 해도 됩니다. **7세에게 도박을 시키지 마시고, 슬롯기 줄에 혼자 세우지 마세요.** 70세분은 카운터에서 좌석이 있는 테이블 게임(블랙잭·포커)을 보면 구경만으로도 볼거리가 됩니다.'},
     yavapai:{g:'서남부 가정식',w:'그랜드캐니언 빌리지 · Yavapai Lodge',h:'아침 07:00~10:30 · 저녁 17:00~21:00',p:'$$ (1인 $25~45)',
       m:'여행객 조식 $20.99(어린이 $14.99), 엘크 칠리 $10.99, 샐러드 바',coffee:1,r:'대기 거의 없음',star:1,
@@ -3399,8 +3399,8 @@ footer a{color:var(--muted)}
       res.textContent = d.res === 2 ? '예약 필수' : '예약 권장';
       res.setAttribute('data-lv', d.res);
     }
-    var kr = document.getElementById('rmodal-kr');
-    kr.hidden = !d.kr;
+    var rec = document.getElementById('rmodal-rec');
+    rec.hidden = !d.rec;
     document.getElementById('rmodal-tag').textContent = d.g;
     document.getElementById('rmodal-name').textContent = label || key;
     var dl = document.getElementById('rmodal-dl');
@@ -3438,7 +3438,7 @@ footer a{color:var(--muted)}
     if (d.res === 2) out += '<i class="rflag rflag--r2">예약 필수</i>';
     else if (d.res === 1) out += '<i class="rflag rflag--r1">예약 권장</i>';
     if (d.coffee) out += '<i class="rflag rflag--cf">커피 포함</i>';
-    if (d.kr) out += '<i class="rflag rflag--kr">한국인 필수</i>';
+    if (d.rec) out += '<i class="rflag rflag--rec">추천</i>';
     return out;
   }
   document.querySelectorAll('.rchip, .mt').forEach(function (b) {
