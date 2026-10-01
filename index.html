@@ -126,7 +126,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:rgba(9,6,12,.9);backdrop-filter:blur(18px) saturate(160%);
   border-bottom:1px solid var(--line-soft);
 }
-.ptabs__in{display:flex;gap:8px;max-width:var(--maxw);margin:0 auto;padding:8px 20px}
+.ptabs__in{display:flex;gap:8px;align-items:center;max-width:var(--maxw);margin:0 auto;padding:8px 20px}
+  .ptabs__row{display:flex;gap:8px;flex:1 1 auto}
+  /* 글자 크기 3단계 — html font-size 를 바꿔 rem 레이아웃 전체를 함께 키운다 */
+  .fsz{display:flex;gap:2px;flex:0 0 auto;align-self:center}
+  .fsz__b{min-width:44px;min-height:44px;padding:0 6px;border:1px solid var(--line);
+    border-radius:9px;background:rgba(255,255,255,.05);color:var(--dim);
+    font-size:.75rem;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .fsz__b[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#1b1206;font-weight:700}
+  .fsz__b:hover{border-color:var(--gold)}
 .ptab{
   display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:12px;
   border:1px solid var(--line);background:rgba(255,255,255,.04);
@@ -137,12 +145,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .ptab__i{font-size:1.0625rem;line-height:1}
 .ptab__t{font-size:0.9375rem;font-weight:700;line-height:1.25}
 .ptab__t small{display:block;font-size:0.75rem;font-weight:400;opacity:.7;letter-spacing:-.01em}
-/* 좁은 화면에서 작은 글자를 한 단계 올린다 (가독성) */
+/* 좁은 화면: 탭 부제(날짜·개수)는 같은 정보가 날짜 칩·색인에 이미 있으므로 숨긴다.
+   그래야 고정 바가 3행으로 접혀 화면의 22% 를 먹지 않는다. */
 @media(max-width:560px){
-
   .ptab__i{display:none}
   .ptab{padding:8px 12px;flex:1}
-  .ptab__t{font-size:0.9375rem}
+  .ptab__t{font-size:0.9375rem;white-space:nowrap}
+  .ptab__t small{display:none}
+  .fsz__b{min-width:40px;min-height:44px;font-size:.6875rem}
 }
 .ppanel[hidden]{display:none}
 
@@ -197,7 +207,7 @@ section{position:relative}
   border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);
   color:var(--text);font-weight:900;
 }
-.day__badge b{font-family:var(--serif);font-size:21px;letter-spacing:.06em;line-height:1;color:var(--accent)}
+.day__badge b{font-family:var(--serif);font-size:1.3125rem;letter-spacing:.06em;line-height:1;color:var(--accent)}
 .day__badge span{font-size:0.8125rem;font-weight:500;color:var(--muted)}
 .day__more{
   display:inline-flex;align-items:center;gap:6px;margin-top:12px;min-height:44px;
@@ -429,8 +439,8 @@ section{position:relative}
 /* ============================================================
    6-2. 식당 참조 버튼 + 상세 모달
    ============================================================ */
-.ref{min-height:44px;padding:9px 6px;display:inline-flex;align-items:center;
-  display:inline;padding:1px 5px;margin:-1px 0;border-radius:5px;font:inherit;font-size:inherit;
+.ref{display:inline-flex;align-items:center;min-height:44px;padding:9px 6px;margin:-1px 0;
+  border-radius:5px;font:inherit;font-size:inherit;
   color:var(--text);background:rgba(255,200,87,.1);border-bottom:1px dashed rgba(255,200,87,.55);
   cursor:pointer;transition:.16s ease;text-align:left;
 }
@@ -636,7 +646,7 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="hero__meta">
       <span class="chipstat">13<span>일 / 12박</span></span>
       <span class="chipstat">5<span>개 숙소 체류</span></span>
-      <span class="chipstat">약 775<span>마일 렌터카 이동</span></span>
+      <span class="chipstat">약 740<span>마일 렌터카 이동</span></span>
       <span class="chipstat">3<span>개 주 · 2개 국립공원</span></span>
     </div>
   </div>
@@ -645,7 +655,8 @@ html.js .reveal.in{opacity:1;transform:none}
 
 <!-- ==================== 페이지 상위 탭 ==================== -->
 <nav class="ptabs" aria-label="페이지 구분">
-  <div class="ptabs__in" role="tablist" aria-label="문서 큰 항목">
+  <div class="ptabs__in">
+  <div class="ptabs__row" role="tablist" aria-label="문서 큰 항목">
     <button class="ptab" role="tab" id="pg1" aria-controls="p-itin" aria-selected="true">
       <span class="ptab__i" aria-hidden="true">🗓</span>
       <span class="ptab__t">전체 일정<small>11/27 – 12/9 · Day 1~13</small></span>
@@ -658,7 +669,13 @@ html.js .reveal.in{opacity:1;transform:none}
       <span class="ptab__i" aria-hidden="true">🍽</span>
       <span class="ptab__t">식당 정보<small><span class="cnt">80</span>곳 · ★ <span class="cnt">12</span>곳</small></span>
     </button>
-  </div>
+    </div>
+    <div class="fsz" role="group" aria-label="글자 크기 조절">
+      <button type="button" class="fsz__b" data-fs="0" aria-pressed="true">보통</button>
+      <button type="button" class="fsz__b" data-fs="1" aria-pressed="false">크게</button>
+      <button type="button" class="fsz__b" data-fs="2" aria-pressed="false">아주</button>
+    </div>
+</div>
 </nav>
 
 <div class="ppanel" role="tabpanel" id="p-itin" aria-labelledby="pg1">
@@ -737,7 +754,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="kv">
         <div class="kv__row"><span class="kv__k">숙소 일정</span><span class="kv__v">Mandalay Bay 2박(11/27–28) → MGM Grand 5박(11/29–12/3) → Springdale 1박(12/4) → Page 2박(12/5–6) → Grand Canyon Village 2박(12/7–8)</span></div>
         <div class="kv__row"><span class="kv__k">렌터카 구간</span><span class="kv__v">MGM → LAS 공항 약 15–25분 · LAS → Springdale 약 165마일 / 2시간 45분 · Springdale → Page 약 110마일/2시간 · Page → 그랜드캐니언 약 180마일/3시간 15분 · 그랜드캐니언 → LAS 공항 약 275마일/4시간 45분</span></div>
-        <div class="kv__row"><span class="kv__k">총 주행</span><span class="kv__v">약 740마일(약 1,250km). 실제 시간은 toll(통행료) 구간과 절벽 노선 때문에 평소보다 20~30% 더 잡으세요.</span></div>
+        <div class="kv__row"><span class="kv__k">총 주행</span><span class="kv__v">약 740마일(약 1,190km). 실제 시간은 toll(통행료) 구간과 절벽 노선 때문에 평소보다 20~30% 더 잡으세요.</span></div>
         <div class="kv__row"><span class="kv__k">시차</span><span class="kv__v">라스베이거스는 <b>PST(UTC−8)</b>이고, 스프링데일(유타)·페이지·그랜드캐니언(애리조나)은 <b>MST(UTC−7)</b>입니다. 세 주는 서머타임을 쓰지 않으므로 <b>12/4에 유타로 넘어갈 때만 시계가 1시간 앞으로 갑니다.</b> 나머지 구간은 바꿀 필요가 없습니다.</span></div>
         <div class="kv__row"><span class="kv__k">기상</span><span class="kv__v">11월 말 – 12월 초 낮 기온 약 10°C, 새벽·일몰 직후 약 −2~3°C. 그랜드캐니언 남림은 해발 2,100m라 체감은 더 쌀쌀합니다. 방한용 겉옷 필수.</span></div>
       </div>
@@ -1047,7 +1064,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="ev">
           <span class="ev__time">저녁 · 21:00 이후</span>
           <h3>벨라지오 분수 → MGM Grand 산책</h3>
-          <p>쇼가 끝나면 벨라지오 분수SHOW가 바로 앞입니다. 20:00 이후에는 15분 간격으로 계속 올라오므로
+          <p>쇼가 끝나면 벨라지오 분수쇼가 바로 앞입니다. 20:00 이후에는 15분 간격으로 계속 올라오므로
             그대로 MGM Grand까지 걸어오면 약 15분(1.2km)입니다.
             라스베이거스의 실제 규모(빌딩 크기, 인파, 소음)를 체감하는 가장 좋은 시간입니다.</p>
           <ul class="dots"><li>벨라지오 분수 → MGM Grand 도보 약 15분</li><li>편한 신발</li><li>20시 이후 분수는 15분 간격</li><li>Pariz, Aria 조경을 지나 MGM으로</li></ul>
@@ -1164,7 +1181,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="ev">
           <span class="ev__time">오전</span>
           <h3>벨라지오 콘서바토리 &amp; 식물원</h3>
-          <p>벨라지오 호텔 로비 안쪽에 있는 14,000㎡ 규모의 대형 온실. 100여 명의 정원사가 1년에 5번 seasonal 전시를 새로 만듭니다.
+          <p>벨라지오 호텔 로비 안쪽에 있는 14,000㎡ 규모의 대형 온실. 100여 명의 정원사가 1년에 5번 시즌 전시를 새로 만듭니다.
             <b>입장료 없고 24시간 개방</b>이라 언제 들어와도 됩니다. 11월 말~12월 말은 연말 테마 전시가 열립니다.</p>
           <ul class="dots"><li>무료 · 예매 없음</li><li>24시간 개방</li><li>호텔 객실 투숙객이 아니어도 들어감</li><li>연말(11월 말~12월 말) 테마 전시</li></ul>
           <div class="note">
@@ -1361,16 +1378,36 @@ html.js .reveal.in{opacity:1;transform:none}
 
       <div class="tl">
         <div class="ev">
+          <span class="ev__time">07:00</span>
+          <h3>MGM 체크아웃 · 짐 싣고 공항으로</h3>
+          <p>MGM Grand의 체크아웃 정석 시각은 11:00이지만, 오늘은 09:00에 공항 렌터카 데스크에 닿아야 해서
+            일찍 정리합니다. 오늘은 짐이 많으니 07:00부터 싸서 바로 차에 실어 두면 그날 동선이 가장 짧아집니다.</p>
+          <ul class="dots">
+            <li>07:00 짐 정리 · 체크아웃</li>
+            <li>MGM → LAS 공항 <b>약 15~25분</b> · 공항 셔틀 또는 택시</li>
+            <li>08:00 출발 기준 08:20~08:30 공항 도착</li>
+            <li>09:00 렌터카 데스크 · <b>수령에 30~40분</b>(계약서 · 차량 확인)</li>
+            <li>09:40 출발 + 165마일(2시간 45분) → <b>12:25경 스프링데일 도착</b></li>
+          </ul>
+          <div class="note">
+            <b>오늘만 짐이 많습니다.</b> 짐은 이 날 반드시 렌터카에 실립니다. 공항에서 짐을 다시 찾아
+            카트에 싣고 옮기는 동선이 수령 대기 30~40분과 겹치면 1시간을 잃습니다.
+            짐은 미리 싣고, 공항에서는 수령 절차를 시작하세요.
+          </div>
+        </div>
+        <div class="ev">
           <span class="ev__time">09:00</span>
           <h3>렌터카 수령 &amp; 라스베이거스 출발</h3>
           <p>먼저 MGM Grand에서 짐을 맡기고 체크아웃한 뒤, 공항 셔틀 또는 택시로 LAS 공항의 렌터카 데스크로 갑니다.
             이후 165마일(약 2시간 45분)을 달려 유타주 스프링데일로 이동합니다.
             네바다주와 애리조나주 경계인 페이지 주변부터 풍경이 바뀌고, 마지막 1시간은 자이언 협곡을 향해 붉어집니다.</p>
           <ul class="dots">
-            <li>필요 서류: 여권 · 운전면허 · 신용카드</li>
-            <li>주유는 라스베이거스에서 가득 채우고 출발</li>
+            <li>09:00 데스크 도착 → 수령 30~40분 → <b>09:40 출발</b></li>
+            <li>필요 서류: 여권 · 운전면허 · 신용카드 (모두 본인이 들고 있어야 합니다)</li>
+            <li>주유는 공항 근처에서 가득 채우고 출발</li>
             <li>휴게소(화장실·간식)는 1시간 간격으로 나타남</li>
             <li>통행료(toll)는 카드로 결제</li>
+            <li><b>12:4에 유타로 넘어가므로 시계가 1시간 앞으로 갑니다</b> — 09:40 출발이 현지 10:40입니다</li>
           </ul>
           <div class="note">
             <b>이 구간에서 주의할 점:</b> 12월 초는 해가 일찍 지니 밤길 구간이 깁니다. 헤드라이트를 미리 켜두고, 휴게소마다 기름을 확인하세요.
@@ -1381,7 +1418,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="ev">
           <span class="ev__time">점심</span>
           <h3>스프링데일 도착 &amp; 점심</h3>
-          <p>오후 2시쯤 스프링데일에 도착해 점심 후 잠깐 쉬고, 오후 늦게 협곡으로 들어가는 흐름이 좋습니다.
+          <p>12:25경 스프링데일에 도착해 점심 후 잠깐 쉬고, 오후 늦게 협곡으로 들어가는 흐름이 좋습니다.
             자이언은 2026년 11월 29일~12월 25일 동안 전용 차량으로 협곡 도로(Scenic Drive)까지 들어갈 수 있습니다. 이 일정만 그 예외입니다. 다만 입구료가 붙습니다 — 차량 7일권 $35에 비거주자 16세 이상 1인당 $100이 추가됩니다.</p>
           <ul class="dots">
             <li>Oscar’s Cafe — 마을 중심, 가족 친화적</li>
@@ -1513,8 +1550,21 @@ html.js .reveal.in{opacity:1;transform:none}
 
         <div class="ev">
           <span class="ev__time">15:00</span>
-          <h3>페이지 체크인</h3>
-          <p>호텔에 짐을 맡기고 잠깐 쉴 수 있습니다. 17:10 일몰을 위해 동선을 정리하는 시간이기도 합니다.</p>
+          <h3>페이지 체크인 · 호스쇼 벤드 출발 준비</h3>
+          <p>호텔에 짐을 맡기고 잠깐 쉴 수 있습니다. 17:10 일몰을 위해 동선을 정리하는 시간이기도 합니다.
+            <b>일출 17:10 기준으로 역산하면 자리가 빠듯합니다.</b> 16:00에 상단 주차장으로 출발하는 것을 권합니다.</p>
+          <ul class="dots">
+            <li><b>16:00 페이지 시내 출발 → 16:15 호스쇼 벤드 상단 주차장 도착</b>(차 10분, 진자강 협곡을 따라갑니다)</li>
+            <li>16:15~16:40 계단 내려가 자리 확보 — 계단이 가파르고 돌이라 오르막은 힘들고 내려가는 쪽이 더 힘들습니다</li>
+            <li>17:10 일몰 · 17:10~17:40 금빛 구간이 가장 좋음</li>
+            <li>일출·일몰 장소는 <b>서로 반대편</b>이라 여기서는 해가 뜨는 쪽을 볼 수 없습니다</li>
+            <li>난간이 있는 구간과 없는 구간이 섞여 있으니 손이 필요한 밑줄 손잡이를 잡고 내려가세요</li>
+          </ul>
+          <div class="note">
+            <b>당일 점검할 것:</b> 상단 주차장 이용 요금은 차량당 $10이며 페이지시가 받습니다.
+            협곡 입구 쪽의 화장실 위치를 출발 전에 확인해 두세요 — 계단을 내려간 뒤 되돌아올 때 시간이 듭니다.
+            계단 수와 난간 구간은 현장 상태에 따라 다르므로, 첫 방문이면 15시에는 자리를 잡아두는 편이 안전합니다.
+          </div>
         </div>
 
         <div class="ev">
@@ -1591,11 +1641,17 @@ html.js .reveal.in{opacity:1;transform:none}
             <li>가이드 동행 · 자유 이동 불가</li>
             <li>입장 시간 지정 · 사전 예약 필수</li>
             <li>약 1.6km 소요 · 60~75분</li>
+            <li><b>08:00 투어 기준 07:20 출발</b>(집결 이동 40분) → 09:15~09:30 하차 → 10:15~10:30 귀환</li>
+            <li>협곡 안에는 <b>화장실이 없습니다</b> — 입구 방문자센터를 이용하세요</li>
+            <li>코스를 걸어서는 들어갈 수 없어 유아도 가이드 동행이 필수입니다</li>
             <li>카메라·삼각대·셀카봉·드론 반입 금지</li>
           </ul>
           <div class="note note--warn">
-            <b>오늘 하루 중 가장 중요한 예약입니다.</b> 날짜 변경이 가능한지, 몇 시 투어인지, 픽업 위치가 어디인지
-            출발 전날 반드시 다시 확인하세요. 나보족(Navajo Nation) 예약 시 배정되는 집결 장소에서 출발하며, 거기는 페이지에서 차로 약 40분 거리입니다.
+            <b>오늘 하루 중 가장 중요한 예약입니다.</b> 날짜 변경이 가능한지, 몇 시 투어인지, <b>집결 장소가 어디인지</b>
+            출발 전날 반드시 다시 확인하세요. 나보족(Navajo Nation) 예약 시 배정되는 집결 장소에서 출발하며,
+            그곳이 페이지 시내가 아닐 수 있어 페이지에서 차 40분~60분이 걸립니다.
+            <b>이 세 가지(체크인 시각 · 집결 장소 · 이동 시간)를 예약 확인서에서 확인한 뒤, 그 기준으로 알람을 거꾸로 맞추세요.</b>
+            투어가 지정 시간 외에는 입장이 불가해 늦으면 그대로 참여하지 못합니다.
             투어 참가자가 챙길 것: 물, 간식, 배터리. 협곡 안에서는 추위와 답답함이 동시에 느껴집니다.
           </div>
           <div class="note note--rest">
@@ -1855,7 +1911,13 @@ html.js .reveal.in{opacity:1;transform:none}
           <p>어제 해 질 무렵 서 있던 자리에 다시 옵니다. 밤사이 구름이 걷혔다면 협곡 상단이
             분홍빛·주황빛으로 물들어 초민즉부터 빛이 들어옵니다. 그랜드캐니언의 일출은 일출 지점보다
             “협곡 위로 빛이 내려오는 10분”이 가장 좋습니다.</p>
-          <ul class="dots"><li>집결 06:40쯤 · 자리 확보</li><li>일출 07:25 전후</li><li>차가운 커피 한 잔 챙기기</li><li>구름 유무에 따라 편차가 큼</li></ul>
+          <ul class="dots">
+            <li><b>06:20 빌리지 호텔 출발</b> → 06:40 Mather Point 집결 · 자리 확보</li>
+            <li>빌리지 중심에서 Mather Point까지 약 2.5km · 주차장은 방문자센터 쪽에 넓게 있습니다</li>
+            <li>일출 07:25 전후 · 구름 유무에 따라 편차가 큼</li>
+            <li><b>06:40에 문을 여는 곳:</b> Maswik 푸드코드(06:00~) · Canyon Village 마켓(06:00~) / 07:00 오픈은 Yavapai 댄딩홀(공원 안이라 차로 이동)</li>
+            <li>Visitor Center 는 <b>08:00</b>에 열립니다 — 커피는 그 전에 빌리지 안에서 해결하세요</li>
+          </ul>
           <div class="note note--warn">
             <b>오늘 아침은 알람을 여러 번 맞춰야 합니다.</b> 새벽 기온이 0°C 근처까지 내려갑니다.
             담요를 가방에 넣어두거나, 어제 저녁 카페나 호텔에서 보온병에 뜨거운 물을 담아두세요. 방문객센터는 08:00에 엽니다.
@@ -1954,13 +2016,29 @@ html.js .reveal.in{opacity:1;transform:none}
             마을 식당은 대부분 <b>21:00 전후에 마감</b>하므로, 창가 자리를 잡을 거라면 17:30 전후로 들어갑니다.
             마감이 지는 곳은 <b>Maswik Food Court</b>와 <b>Canyon Village Market</b>(21:00 마감)입니다.</p>
           <ul class="dots">
-            <li>창가 노을 + 저녁 = El Tovar 또는 Bright Angel</li>
+            <li><b>17:30 기준 영업 중인 곳:</b> El Tovar(16:30~19:30) · Arizona Steakhouse(16:30~21:00) · Bright Angel(약 16:30~21:00) · Squire Pub(~17:00~) · Maswik 푸드코드(~21:00 마감) · Canyon Village 마켓(~21:00 마감)</li>
+            <li>창가 노을까지 원하면 <b>17:30 전에 들어가야</b> 마감 시간을 맞출 수 있습니다</li>
             <li>21:00 이후 남는 곳 = Maswik 푸드코트 · 마을 마켓</li>
             <li>일출 관측용 알람을 위해 21:30 전 취침 권장</li>
           </ul>
+          <table class="tbl">
+            <caption>12/8 저녁 — 17:30 기준 영업 시간</caption>
+            <thead><tr><th scope="col">식당</th><th scope="col">영업 시간</th><th scope="col">17:30 기준</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" class="n">El Tovar</th><td class="d" data-l="영업 시간">16:30~19:30</td><td class="c" data-l="17:30 기준">영업 중 · 마감 임박</td></tr>
+              <tr><th scope="row" class="n">Arizona Steakhouse</th><td class="d" data-l="영업 시간">16:30~21:00</td><td class="c" data-l="17:30 기준">영업 중</td></tr>
+              <tr><th scope="row" class="n">Bright Angel</th><td class="d" data-l="영업 시간">약 16:30~21:00</td><td class="c" data-l="17:30 기준">영업 중</td></tr>
+              <tr><th scope="row" class="n">Squire Pub</th><td class="d" data-l="영업 시간">약 17:00~</td><td class="c" data-l="17:30 기준">영업 중</td></tr>
+              <tr><th scope="row" class="n">Maswik 푸드코드</th><td class="d" data-l="영업 시간">06:00~21:00</td><td class="c" data-l="17:30 기준">영업 중 · 21:00 마감</td></tr>
+              <tr><th scope="row" class="n">Canyon Village 마켓</th><td class="d" data-l="영업 시간">06:00~21:00</td><td class="c" data-l="17:30 기준">영업 중 · 21:00 마감</td></tr>
+            </tbody>
+          </table>
           <div class="note note--warn">
-            <b>오늘 밤 알람이 중요합니다.</b> 내일(12/9) 새벽 06:50 기상 후 07:24 일출을 보러 갑니다.
-            <b>오늘 저녁에 알람을 맞춰 두세요.</b> 방문객센터는 08:00에 열리므로 아침에 커피를 사려면 마을 마켓을 이용해야 합니다.
+            <b>오늘 밤 알람이 중요합니다.</b> 내일(12/9)은 귀국 이동이라 일출을 보러 가지 않습니다.
+            대신 <b>새벽 06:40 기상 → 07:00 체크아웃 · 07:30 전후 Bright Angel 트레일 입구를 잠깐 걷고 08:00 출발</b>로 이어집니다.
+            오늘 저녁에 알람을 맞춰 두세요.
+            <b>06:40에 커피를 마실 곳:</b> Maswik 푸드코드(06:00~) · Canyon Village 마켓(06:00~).
+            Yavapai는 07:00 오픈이라 기상 직후에는 닫혀 있고, 방문자센터는 08:00에 엽니다.
           </div>
         </div>
 
@@ -2102,7 +2180,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="sunbar"><span class="sunbar__p">페이지 · 호스쇼 벤드</span><span class="sunbar__b">12/05 일출 07:22</span><span class="sunbar__t"><i style="left:11%"></i></span><span class="sunbar__b">일몰 17:10</span></div>
       <div class="sunbar"><span class="sunbar__p">빅워터</span><span class="sunbar__b">12/06 일출 07:21</span><span class="sunbar__t"><i style="left:12%"></i></span><span class="sunbar__b">일몰 17:08</span></div>
       <div class="sunbar"><span class="sunbar__p">그랜드캐니언 남림</span><span class="sunbar__b">12/07 일출 07:24</span><span class="sunbar__t"><i style="left:14%"></i></span><span class="sunbar__b">일몰 17:15</span></div>
-      <p style="margin-top:14px;font-size:13.5px;color:var(--muted)">
+      <p style="margin-top:14px;font-size:0.84375rem;color:var(--muted)">
         위 시각은 각 지역 기준의 대략적인 값입니다. 같은 날이라도 라스베이거스는 위도가 낮아
         낮이 조금 더 짧고, 그랜드캐니언 남림은 해발이 높아 기온이 더 낮습니다.
       </p>
@@ -2151,7 +2229,7 @@ html.js .reveal.in{opacity:1;transform:none}
           <ul class="dots" style="margin-top:10px">
             <li>반드시 가져갈 것: 여권 · 운전면허 · 예약에 쓴 신용카드</li>
             <li>추가 운전자 등록 시 이름도 사전에</li>
-            <li><b>7세용 부스터 시트 예약 단계에서 반드시 지정하세요.</b> 네바다·유타·애리조나 모두 8세 미만은 어린이용 좌석 restraints 사용이 법정 기준이며, 렌터카 비용에 포함되지 않는 일당 요금이 붙습니다. 예약 확인서에 'child seat requested' 가 기재됐는지 확인하세요.</li>
+            <li><b>7세용 부스터 시트 예약 단계에서 반드시 지정하세요.</b> 네바다·유타·애리조나 모두 8세 미만은 어린이용 좌석(안전벨트 부스터 포함) 사용이 법정 기준이며, 렌터카 비용에 포함되지 않는 일당 요금이 붙습니다. 예약 확인서에 'child seat requested' 가 기재됐는지 확인하세요.</li>
             <li> toll(통행료) 일은 카드 결제 가능한지 확인</li>
             <li>손상 시 과다 청구 방지를 위해 사진 촬영</li>
           </ul>
@@ -2309,7 +2387,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
       <!-- ---- 탭 1 ---- -->
       <div class="tabs__panel" role="tabpanel" id="tp1" aria-labelledby="tg1" tabindex="0">
-        <p style="color:var(--muted);font-size:14.5px;margin-bottom:16px">
+        <p style="color:var(--muted);font-size:0.90625rem;margin-bottom:16px">
           MGM Grand 호텔에서 걸어서 5분 안쪽. 이동 수단이 필요 없어 매일 반복하기 좋은 곳들입니다.
         </p>
         <div class="tblwrap">
@@ -2362,7 +2440,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
       <!-- ---- 탭 2 ---- -->
       <div class="tabs__panel" role="tabpanel" id="tp2" aria-labelledby="tg2" tabindex="0">
-        <p style="color:var(--muted);font-size:14.5px;margin-bottom:16px">
+        <p style="color:var(--muted);font-size:0.90625rem;margin-bottom:16px">
           MGM에서 차·트램으로 5~15분. 하루 중 반나절만 소비하고 나머지는 수영장이나 휴식에 돌릴 수 있습니다.
         </p>
         <div class="tblwrap">
@@ -2433,7 +2511,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
       <!-- ---- 탭 3 ---- -->
       <div class="tabs__panel" role="tabpanel" id="tp3" aria-labelledby="tg3" tabindex="0">
-        <p style="color:var(--muted);font-size:14.5px;margin-bottom:16px">
+        <p style="color:var(--muted);font-size:0.90625rem;margin-bottom:16px">
           하루 종일 머무는 곳들입니다. 못 움직이는 시간이 길지 않아 점심 이후에는 밤까지 여유가 생깁니다.
         </p>
         <div class="tblwrap">
@@ -2474,7 +2552,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
       <!-- ---- 탭 4 ---- -->
       <div class="tabs__panel" role="tabpanel" id="tp4" aria-labelledby="tg4" tabindex="0">
-        <p style="color:var(--muted);font-size:14.5px;margin-bottom:16px">
+        <p style="color:var(--muted);font-size:0.90625rem;margin-bottom:16px">
           아래는 위 후보를 08:00~18:00 안에 넣은 예시입니다.
         </p>
         <div class="tblwrap">
@@ -2534,7 +2612,7 @@ html.js .reveal.in{opacity:1;transform:none}
           이 시간대(08:00~18:00)에 무료로 볼 수 있는 것은 Wynn Lake of Dreams(16:40 부근)뿐입니다.
         </div>
 
-        <p style="color:var(--muted);font-size:14.5px;margin:22px 0 14px">
+        <p style="color:var(--muted);font-size:0.90625rem;margin:22px 0 14px">
           18:30 이후 공연까지 포함해도 좋다면, 이 두 곳이 후보입니다. 둘 다 말 없이도 볼 수 있는 종류입니다.
         </p>
         <div class="tblwrap">
@@ -2588,7 +2666,7 @@ html.js .reveal.in{opacity:1;transform:none}
             <span class="vid__ic">▶</span><span><span class="vid__t">킹 튀트 무덤 전시 둘러보기</span><span class="vid__s">YouTube · 실제 전시 모습</span></span>
           </a>
           <a class="vid" href="https://www.youtube.com/results?search_query=High+Roller+Las+Vegas+cabins+daytime" target="_blank" rel="noopener">
-            <span class="vid__ic">▶</span><span><span class="vid__t">High Roller capsules 내부</span><span class="vid__s">YouTube · 전면 유리창·엘리베이터</span></span>
+            <span class="vid__ic">▶</span><span><span class="vid__t">High Roller 캡슐 내부</span><span class="vid__s">YouTube · 전면 유리창·엘리베이터</span></span>
           </a>
         </div>
       </div>
@@ -2609,7 +2687,7 @@ html.js .reveal.in{opacity:1;transform:none}
     </div>
 <div class="reveal" id="food-index">
       <h3 style="margin:0 0 4px">전체 80곳</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin:0 0 12px"><span class="rflag rflag--r2">예약 필수</span> <span class="rflag rflag--r1">예약 권장</span> <span class="rflag rflag--cf">커피 포함</span> <span class="rflag rflag--rec">추천</span> <span class="legend">★</span> 표시가 붙습니다. 이름을 누르면 상세가 열립니다.</p>
+      <p style="font-size:0.84375rem;color:var(--dim);margin:0 0 12px"><span class="rflag rflag--r2">예약 필수</span> <span class="rflag rflag--r1">예약 권장</span> <span class="rflag rflag--cf">커피 포함</span> <span class="rflag rflag--rec">추천</span> <span class="legend">★</span> 표시가 붙습니다. 이름을 누르면 상세가 열립니다.</p>
       <div class="jump">
         <a href="#food-vegas" data-count="vegas">🏨 라스베이거스 <b class="cnt">–</b></a>
         <a href="#food-springdale" data-count="springdale">🏔️ 스프링데일 <b class="cnt">–</b></a>
@@ -2706,16 +2784,16 @@ html.js .reveal.in{opacity:1;transform:none}
 
 <div class="panel reveal" style="margin-bottom:30px">
       <h3 style="margin-bottom:6px">먼저 알아둘 것 — 위치가 다릅니다</h3>
-      <p style="font-size:14px;color:var(--muted)">
+      <p style="font-size:0.875rem;color:var(--muted)">
         MGM에 머무르는 5일간 쓰는 후보 중 <b>절반은 MGM 건물 밖</b>입니다. 하필 체류지 바로 옆이라 오히려 편하지만,
         이동 시간을 잘못 잡으면 점심이 밀립니다. 가격은 2026년 9월 조사 기준이며 세금·팁은 별도입니다.
       </p>
       <div class="tblwrap" style="margin-top:14px">
         <table class="tbl">
-          <caption class="sr-only">MGM 내 buffet 과다 영업 시간 차이</caption>
+          <caption class="sr-only">MGM 내 버퍼 과다 영업 시간 차이</caption>
           <thead><tr><th scope="col" style="width:30%">식당</th><th scope="col">실제 위치</th><th scope="col" style="width:20%">MGM에서</th><th scope="col" style="width:14%">가격대</th></tr></thead>
           <tbody>
-            <tr><th scope="row" class="n">Grand Wok · Shake Shack · Earl of Sandwich<br><span style="color:var(--dim);font-size:13px">MGM 푸드코트 · MGM 푸드홀</span></th><td class="d" data-l="실제 위치">MGM Grand 호텔 안</td><td class="c" data-l="MGM에서">호텔 내 5~10분</td><td class="c" data-l="가격대">$ ~ $$</td></tr>
+            <tr><th scope="row" class="n">Grand Wok · Shake Shack · Earl of Sandwich<br><span style="color:var(--dim);font-size:0.8125rem">MGM 푸드코트 · MGM 푸드홀</span></th><td class="d" data-l="실제 위치">MGM Grand 호텔 안</td><td class="c" data-l="MGM에서">호텔 내 5~10분</td><td class="c" data-l="가격대">$ ~ $$</td></tr>
             <tr><th scope="row" class="n">PBR Rock Bar</th><td class="d" data-l="실제 위치">Miracle Mile Shops (북동쪽)</td><td class="c" data-l="MGM에서">차 5분 / 도보 12분</td><td class="c" data-l="가격대">$$</td></tr>
             <tr><th scope="row" class="n">America · NYNY Village Eateries</th><td class="d" data-l="실제 위치">New York-New York (북쪽)</td><td class="c" data-l="MGM에서">도보 8분</td><td class="c" data-l="가격대">$$</td></tr>
             <tr><th scope="row" class="n">Din Tai Fung</th><td class="d" data-l="실제 위치">ARIA 리조트 (북쪽)</td><td class="c" data-l="MGM에서">차 5분 / 도보 15분</td><td class="c" data-l="가격대">$$</td></tr>
@@ -2734,7 +2812,7 @@ html.js .reveal.in{opacity:1;transform:none}
     
     <div class="reveal" id="food-vegas">
       <h3 style="margin:0 0 4px">🏨 라스베이거스</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">11/27 – 12/3 · 만달레이베이 · MGM · 인접 호텔 · <span class="legend">★</span>는 평판이 가장 좋은 곳</p>
+      <p style="font-size:0.84375rem;color:var(--dim);margin-bottom:0">11/27 – 12/3 · 만달레이베이 · MGM · 인접 호텔 · <span class="legend">★</span>는 평판이 가장 좋은 곳</p>
       <div class="rlist" data-group="vegas">        <button class="rchip is-star" data-r="mgmbuffet" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>MGM Grand Buffet</b><span>MGM 건물 안 · 08:00~15:00 · $32~43</span></button>
         <button class="rchip" data-r="excalbuffet" type="button"><b>Excalibur Buffet</b><span>07시 오픈 · $32~43</span></button>
         <button class="rchip" data-r="luxorbuffet" type="button"><b>Luxor Buffet</b><span>수~일만 · $32~38</span></button>
@@ -2778,7 +2856,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="reveal" id="food-springdale" style="margin-top:34px">
       <h3 style="margin:0 0 4px">🏔️ 자이언 · 스프링데일 (12/4)</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">협곡 입구 마을 · 모두 차 5분 이내</p>
+      <p style="font-size:0.84375rem;color:var(--dim);margin-bottom:0">협곡 입구 마을 · 모두 차 5분 이내</p>
       <div class="rlist" data-group="springdale">        <button class="rchip is-star" data-r="oscars" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Oscar's Cafe</b><span>브런치·멕시코·아메리칸 · $$</span></button>
         <button class="rchip is-star" data-r="spotteddog" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Spotted Dog</b><span>피자·버거 · 유모차 OK · $$</span></button>
         <button class="rchip is-star" data-r="hangrygoat" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>The Hangry Goat</b><span>강변 정원 · 정통 · $$</span></button>
@@ -2793,7 +2871,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="reveal" id="food-page" style="margin-top:34px">
       <h3 style="margin:0 0 4px">🏜️ 페이지 (12/5 – 12/6)</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">모두 시내 도보권 · 작은 마을이라 대기 있음</p>
+      <p style="font-size:0.84375rem;color:var(--dim);margin-bottom:0">모두 시내 도보권 · 작은 마을이라 대기 있음</p>
       <div class="rlist" data-group="page">        <button class="rchip is-star" data-r="bigjohns" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Big John's Texas BBQ</b><span>텍사스 바비큐 · $$</span></button>
         <button class="rchip is-star" data-r="fiesta" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Fiesta Mexicana</b><span>멕시코 가정식 · $$</span></button>
         <button class="rchip is-star" data-r="dambar" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Dam Bar &amp; Grille</b><span>시내 로컬 · 10:30~21:30 · $$</span></button>
@@ -2809,7 +2887,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="reveal" id="food-gc" style="margin-top:34px">
       <h3 style="margin:0 0 4px">⛰️ 그랜드캐니언 빌리지 (12/7 – 12/8)</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">공원 안 상업지구 · 리조트가 아니라 바로 식사 가능</p>
+      <p style="font-size:0.84375rem;color:var(--dim);margin-bottom:0">공원 안 상업지구 · 리조트가 아니라 바로 식사 가능</p>
       <div class="rlist" data-group="gc">        <button class="rchip is-star" data-r="eltovar" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>El Tovar Dining Room</b><span>1905년 호텔 · 아메리칸·서남부 · $$$</span></button>
         <button class="rchip is-star" data-r="maswikfc" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Maswik Food Court</b><span>남림 최대 푸드홀 · 6:00~21:00 · $</span></button>
         <button class="rchip is-star" data-r="arizonasteak" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Arizona Steakhouse</b><span>Bright Angel · 협곡 전망 · $$$</span></button>
@@ -2828,7 +2906,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="reveal" id="food-korea" style="margin-top:34px">
       <h3 style="margin:0 0 4px">✨ 추천 장소</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">한국 기준으로 의미가 있는 곳 · 채이나타운(스프링 마운틴로·레이보우)에 대부분 몰려 있습니다</p>
+      <p style="font-size:0.84375rem;color:var(--dim);margin-bottom:0">한국 기준으로 의미가 있는 곳 · 채이나타운(스프링 마운틴로·레이보우)에 대부분 몰려 있습니다</p>
       <div class="rlist" data-group="korea">
         <button class="rchip is-star" data-r="kgbbq" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>KG BBQ (Korean Garden)</b><span>차이나타운 · 무한리필 $40</span></button>
         <button class="rchip" data-r="dohbbq" type="button"><b>Doh Korean BBQ</b><span>S Rainbow · 24시간 무한리필</span></button>
@@ -2851,7 +2929,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="panel reveal" style="margin-bottom:30px">
       <h3 style="margin-bottom:6px">☕ 커피 무제한 · 아침만 먹는 곳</h3>
-      <p style="font-size:14px;color:var(--muted)">
+      <p style="font-size:0.875rem;color:var(--muted)">
         커피는 보통 한 잔 값을 따로 내야 합니다. <b>무제한이거나 식사료에 들어 있는 곳만 따로 두었습니다.</b>
         뷔페는 셀프서비스라 원하는 것만 집어 먹으면 됩니다. 처음 가는 날은 11시 오픈 직후가 한산합니다.
       </p>
@@ -2860,15 +2938,15 @@ html.js .reveal.in{opacity:1;transform:none}
             <caption class="sr-only">커피 무제한 · 아침만 먹는 곳</caption>
             <thead><tr><th scope="col" style="width:24%">곳</th><th scope="col" style="width:17%">영업시간</th><th scope="col" style="width:16%">가격</th><th scope="col">커피 방식 · 특징</th></tr></thead>
           <tbody>
-            <tr><th scope="row" class="n nw">MGM Grand Buffet<br><span style="color:var(--dim);font-size:13px">숙소 건물 안</span></th><td class="d" data-l="영업시간">매일 08:00~15:00</td><td class="c" data-l="가격">월~목 $31.99<br>금 $37.99 / 토·일 $42.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. <b>호텔에서 도보 3분.</b></td></tr>
-            <tr><th scope="row" class="n nw">Excalibur Buffet<br><span style="color:var(--dim);font-size:13px">셔틀 10분</span></th><td class="d" data-l="영업시간">매일 07:00~14:00</td><td class="c" data-l="가격">월~목 $31.99<br>금 $37.99 / 토·일 $42.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. MGM보다 1시간 일찍 열려 일찍 움직이는 날에 유리.</td></tr>
-            <tr><th scope="row" class="n nw">Wynn Buffet<br><span style="color:var(--dim);font-size:13px">도보 5분</span></th><td class="d" data-l="영업시간">매일 08:00~13:00</td><td class="c" data-l="가격">성인 $59.99<br>3~9세 $29.99</td><td class="d" data-l="커피 방식 · 특징">티켓에 커피·청음료·주스 무제한이 명시. 접시가 많아 가볍게 먹기 좋습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Sabre (Circus Circus)<br><span style="color:var(--dim);font-size:13px">차 10분</span></th><td class="d" data-l="영업시간">금~일 07:30~11:00<br>16:30~22:00</td><td class="c" data-l="가격">$30~50</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. <b>월~목은 휴무</b>라 금·토·일 아침만 가능합니다.</td></tr>
-            <tr><th scope="row" class="n nw">Luxor Buffet<br><span style="color:var(--dim);font-size:13px">도보 15분</span></th><td class="d" data-l="영업시간">수~일 08:00~14:00</td><td class="c" data-l="가격">월~목 $31.99<br>금~일 $37.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. <b>월·화 휴무.</b></td></tr>
-            <tr><th scope="row" class="n nw">Main Street Station<br><span style="color:var(--dim);font-size:13px">다운타운 · 차 12분</span></th><td class="d" data-l="영업시간">매일 08:00~14:00</td><td class="c" data-l="가격">월~금 $23.99<br>주말 $26.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. 스트립 밖이라 차가 없으면 비쌉니다.</td></tr>
-            <tr><th scope="row" class="n nw">Vegas Coffee Card<br><span style="color:var(--dim);font-size:13px">상품 (음식점 아님)</span></th><td class="d" data-l="영업시간">구매 후 24~72시간</td><td class="c" data-l="가격">카드값 1회</td><td class="d" data-l="커피 방식 · 특징">참여 카페에서 <b>무제한 리필</b>. 11/28 저녁이 비는 날 아침에 쓰기 좋습니다. <b>출발 전 공식 웹사이트에서 가격·참여점 확인</b> 필요.</td></tr>
-            <tr><th scope="row" class="n nw">Yavapai Dining Hall<br><span style="color:var(--dim);font-size:13px">그랜드캐니언 12/8</span></th><td class="d" data-l="영업시간">아침 07:00~10:30</td><td class="c" data-l="가격">조식 $20.99<br>(어린이 $14.99)</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. 공원 안이라 새벽 기상 후 바로 갈 수 있는 곳.</td></tr>
-            <tr><th scope="row" class="n nw">호텔 객실 커피머신<br><span style="color:var(--dim);font-size:13px">MGM 등 대부분의 호텔</span></th><td class="d" data-l="영업시간">상시</td><td class="c" data-l="가격">무료 (캡슐 비용만)</td><td class="d" data-l="커피 방식 · 특징">머신이 캡슐을 소모하므로 무제한은 아니지만, <b>아침에 나가기 싫을 때 1컵 값어치를 아끼는 방법</b>입니다.</td></tr>
+            <tr><th scope="row" class="n nw">MGM Grand Buffet<br><span style="color:var(--dim);font-size:0.8125rem">숙소 건물 안</span></th><td class="d" data-l="영업시간">매일 08:00~15:00</td><td class="c" data-l="가격">월~목 $31.99<br>금 $37.99 / 토·일 $42.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. <b>호텔에서 도보 3분.</b></td></tr>
+            <tr><th scope="row" class="n nw">Excalibur Buffet<br><span style="color:var(--dim);font-size:0.8125rem">셔틀 10분</span></th><td class="d" data-l="영업시간">매일 07:00~14:00</td><td class="c" data-l="가격">월~목 $31.99<br>금 $37.99 / 토·일 $42.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. MGM보다 1시간 일찍 열려 일찍 움직이는 날에 유리.</td></tr>
+            <tr><th scope="row" class="n nw">Wynn Buffet<br><span style="color:var(--dim);font-size:0.8125rem">도보 5분</span></th><td class="d" data-l="영업시간">매일 08:00~13:00</td><td class="c" data-l="가격">성인 $59.99<br>3~9세 $29.99</td><td class="d" data-l="커피 방식 · 특징">티켓에 커피·청음료·주스 무제한이 명시. 접시가 많아 가볍게 먹기 좋습니다.</td></tr>
+            <tr><th scope="row" class="n nw">Sabre (Circus Circus)<br><span style="color:var(--dim);font-size:0.8125rem">차 10분</span></th><td class="d" data-l="영업시간">금~일 07:30~11:00<br>16:30~22:00</td><td class="c" data-l="가격">$30~50</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. <b>월~목은 휴무</b>라 금·토·일 아침만 가능합니다.</td></tr>
+            <tr><th scope="row" class="n nw">Luxor Buffet<br><span style="color:var(--dim);font-size:0.8125rem">도보 15분</span></th><td class="d" data-l="영업시간">수~일 08:00~14:00</td><td class="c" data-l="가격">월~목 $31.99<br>금~일 $37.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. <b>월·화 휴무.</b></td></tr>
+            <tr><th scope="row" class="n nw">Main Street Station<br><span style="color:var(--dim);font-size:0.8125rem">다운타운 · 차 12분</span></th><td class="d" data-l="영업시간">매일 08:00~14:00</td><td class="c" data-l="가격">월~금 $23.99<br>주말 $26.99</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. 스트립 밖이라 차가 없으면 비쌉니다.</td></tr>
+            <tr><th scope="row" class="n nw">Vegas Coffee Card<br><span style="color:var(--dim);font-size:0.8125rem">상품 (음식점 아님)</span></th><td class="d" data-l="영업시간">구매 후 24~72시간</td><td class="c" data-l="가격">카드값 1회</td><td class="d" data-l="커피 방식 · 특징">참여 카페에서 <b>무제한 리필</b>. 11/28 저녁이 비는 날 아침에 쓰기 좋습니다. <b>출발 전 공식 웹사이트에서 가격·참여점 확인</b> 필요.</td></tr>
+            <tr><th scope="row" class="n nw">Yavapai Dining Hall<br><span style="color:var(--dim);font-size:0.8125rem">그랜드캐니언 12/8</span></th><td class="d" data-l="영업시간">아침 07:00~10:30</td><td class="c" data-l="가격">조식 $20.99<br>(어린이 $14.99)</td><td class="d" data-l="커피 방식 · 특징">셀프서비스 무제한. 공원 안이라 새벽 기상 후 바로 갈 수 있는 곳.</td></tr>
+            <tr><th scope="row" class="n nw">호텔 객실 커피머신<br><span style="color:var(--dim);font-size:0.8125rem">MGM 등 대부분의 호텔</span></th><td class="d" data-l="영업시간">상시</td><td class="c" data-l="가격">무료 (캡슐 비용만)</td><td class="d" data-l="커피 방식 · 특징">머신이 캡슐을 소모하므로 무제한은 아니지만, <b>아침에 나가기 싫을 때 1컵 값어치를 아끼는 방법</b>입니다.</td></tr>
           </tbody>
         </table>
       </div>
@@ -2879,7 +2957,7 @@ html.js .reveal.in{opacity:1;transform:none}
       </div>
 
       <h4 class="sph4">🍳 중국식 뷔페 · 팬케이크 다이너</h4>
-      <p style="font-size:13.5px;color:var(--muted);margin:0 0 10px">
+      <p style="font-size:0.84375rem;color:var(--muted);margin:0 0 10px">
         밤중에도 문을 여는 곳입니다.
         <b>미국 다이너와 뷔페는 종이컵 커피의 무료 리필이 기본</b>이라, 리필을 안 해 주는 곳은 오히려 드뭅니다.
       </p>
@@ -2888,13 +2966,13 @@ html.js .reveal.in{opacity:1;transform:none}
             <caption class="sr-only">중국식 뷔페 · 팬케이크 다이너</caption>
             <thead><tr><th scope="col" style="width:22%">곳</th><th scope="col" style="width:19%">영업시간</th><th scope="col" style="width:17%">가격</th><th scope="col">무엇이 있나</th></tr></thead>
           <tbody>
-            <tr><th scope="row" class="n nw">Buffet At Asia<br><span style="color:var(--dim);font-size:13px">2380 S Rainbow Blvd · 차 8분</span></th><td class="d nw" data-l="영업시간">월~목·일 11:00~21:30<br>금·토 ~22:00</td><td class="c" data-l="가격">1인 $15~30</td>
+            <tr><th scope="row" class="n nw">Buffet At Asia<br><span style="color:var(--dim);font-size:0.8125rem">2380 S Rainbow Blvd · 차 8분</span></th><td class="d nw" data-l="영업시간">월~목·일 11:00~21:30<br>금·토 ~22:00</td><td class="c" data-l="가격">1인 $15~30</td>
               <td class="d" data-l="무엇이 있나"><b>MGM 근처에서 가장 가까운 중국식 뷔페</b>입니다. 차슈바오·볶음면·볶음밥·만두에 초밥 코너까지 있어 중식과 초밥을 나눠 주문하기 좋습니다. 리뷰 평가는 양호하지만 "가성비가 그만큼"이라는 평가가 많습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Feast Buffet<br><span style="color:var(--dim);font-size:13px">Palace Station · 차 5분</span></th><td class="d nw" data-l="영업시간">조식 월~토 08:00~11:00<br>일요일 브런치 08:00~16:00</td><td class="c" data-l="가격">조식 $13.99<br>일 브런치 $22.99</td>
+            <tr><th scope="row" class="n nw">Feast Buffet<br><span style="color:var(--dim);font-size:0.8125rem">Palace Station · 차 5분</span></th><td class="d nw" data-l="영업시간">조식 월~토 08:00~11:00<br>일요일 브런치 08:00~16:00</td><td class="c" data-l="가격">조식 $13.99<br>일 브런치 $22.99</td>
               <td class="d" data-l="무엇이 있나">주방에서 즉석 볶음. 자이차우·중식 죽·차슈 등 중국 코너가 평이 가장 좋은 편이고 <b>팬케이크를 굽는 그릴</b>도 있습니다. <b>카지노 회원 카드를 제시하면 같은 자리에서 몇 달러 더 저렴해집니다.</b></td></tr>
-            <tr><th scope="row" class="n nw">Denny's<br><span style="color:var(--dim);font-size:13px">3010 W Sahara Ave · 차 3분</span></th><td class="d nw" data-l="영업시간">24시간<br>(조식도 밤중까지)</td><td class="c" data-l="가격">1인 $12~25</td>
+            <tr><th scope="row" class="n nw">Denny's<br><span style="color:var(--dim);font-size:0.8125rem">3010 W Sahara Ave · 차 3분</span></th><td class="d nw" data-l="영업시간">24시간<br>(조식도 밤중까지)</td><td class="c" data-l="가격">1인 $12~25</td>
               <td class="d" data-l="무엇이 있나"><b>MGM에서 가장 가까운 24시간 아침집</b>입니다. 팬케이크 플램·오멜렛·스키틀. <b>오후 2~5시가 가장 한산</b>해 대기가 거의 없습니다. 화요일 16~22시는 어린이 무료.</td></tr>
-            <tr><th scope="row" class="n nw">IHOP<br><span style="color:var(--dim);font-size:13px">3595 S Rainbow Blvd · 차 8분</span></th><td class="d nw" data-l="영업시간">24시간<br>(조식도 밤중까지)</td><td class="c" data-l="가격">1인 $12~25</td>
+            <tr><th scope="row" class="n nw">IHOP<br><span style="color:var(--dim);font-size:0.8125rem">3595 S Rainbow Blvd · 차 8분</span></th><td class="d nw" data-l="영업시간">24시간<br>(조식도 밤중까지)</td><td class="c" data-l="가격">1인 $12~25</td>
               <td class="d" data-l="무엇이 있나">이름 그대로 팬케이크의 집. 벨지안 와플과 크렘펜츠 팬케이크가 대표 메뉴입니다. <b>사진이 붙은 메뉴판</b>에 어린이용 메뉴가 따로 있습니다.</td></tr>
           </tbody>
         </table>
@@ -2907,7 +2985,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="panel reveal" style="margin-bottom:30px">
       <h3 style="margin-bottom:6px">🍫 디저트 · 아이스크림</h3>
-      <p style="font-size:14px;color:var(--muted)">
+      <p style="font-size:0.875rem;color:var(--muted)">
         디저트는 한 입 크기가 작아야 하고 앉을 자리가 있어야 합니다. 진열대가 낮으면 보기 편하고, 의자가 있는 곳이 낫습니다.
         음료가 층층이 쌓인 것보다 소다파운틴처럼 고를 수 있는 것이 두 세대 모두에게 안전합니다.
       </p>
@@ -2916,25 +2994,25 @@ html.js .reveal.in{opacity:1;transform:none}
             <caption class="sr-only">디저트 · 아이스크림</caption>
             <thead><tr><th scope="col" style="width:21%">곳</th><th scope="col" style="width:15%">형태</th><th scope="col" style="width:14%">가격</th><th scope="col">왜 여기에 갔나</th></tr></thead>
           <tbody>
-            <tr><th scope="row" class="n nw">Titanic (Carmine's)<br><span style="color:var(--dim);font-size:13px">Forum Shops · 차 10분</span></th><td class="d nw" data-l="형태">식사 후 테이블 디저트<br><b>예약 필수</b></td><td class="c" data-l="가격">파스타 + 파이<br>2인 $80~120</td>
+            <tr><th scope="row" class="n nw">Titanic (Carmine's)<br><span style="color:var(--dim);font-size:0.8125rem">Forum Shops · 차 10분</span></th><td class="d nw" data-l="형태">식사 후 테이블 디저트<br><b>예약 필수</b></td><td class="c" data-l="가격">파스타 + 파이<br>2인 $80~120</td>
               <td class="d" data-l="왜 여기에 갔나"><b>이번 여행의 대표 디저트 후보입니다.</b> 초코 티르츠 위에 아이스크림·바나나·딸기·잼·핫퍼지·쿠키를 수십 층 올려 2명이 나눠 먹는 그릇입니다. 볼륨이 있어서 나눠 먹기 좋습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Mayfair (Bellagio) ★<br><span style="color:var(--dim);font-size:13px">차 12분</span></th><td class="d nw" data-l="형태">식사 후 코스<br><b>예약 필수</b></td><td class="c" data-l="가격">스테이크 1인 $70~200</td>
+            <tr><th scope="row" class="n nw">Mayfair (Bellagio) ★<br><span style="color:var(--dim);font-size:0.8125rem">차 12분</span></th><td class="d nw" data-l="형태">식사 후 코스<br><b>예약 필수</b></td><td class="c" data-l="가격">스테이크 1인 $70~200</td>
               <td class="d" data-l="왜 여기에 갔나">초콜릿 케이크 24층. <b>Food Network "America's Best Dessert" 1위</b>를 받은 케이크이며 8~10인분이량이라 3명이 먹으면 남습니다. 직원이 장미 한 다발을 가져다 보여주고, 그 안의 초콜릿 장미 한 개가 먹을 수 있습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Cheesecake Factory ★<br><span style="color:var(--dim);font-size:13px">MGM 2층 · 도보 5분</span></th><td class="d nw" data-l="형태">케이크 전문<br>테이크아웃 가능</td><td class="c" data-l="가격">1인 $18~35<br>(한 조각 약 $8)</td>
+            <tr><th scope="row" class="n nw">Cheesecake Factory ★<br><span style="color:var(--dim);font-size:0.8125rem">MGM 2층 · 도보 5분</span></th><td class="d nw" data-l="형태">케이크 전문<br>테이크아웃 가능</td><td class="c" data-l="가격">1인 $18~35<br>(한 조각 약 $8)</td>
               <td class="d" data-l="왜 여기에 갔나"><b>호텔에서 올라가기만 하면 됩니다.</b> New York Cheesecake가 대표 메뉴입니다. 다만 이 층은 스트립에서 대기가 가장 긴 편이라 11시 전후나 14시 이후를 노리세요.</td></tr>
-            <tr><th scope="row" class="n nw">Ghirardelli<br><span style="color:var(--dim);font-size:13px">LINQ Promenade · 차 4분</span></th><td class="d nw" data-l="형태">소다파운틴<br><span style="color:var(--dim)">좌석 있음</span></td><td class="c" data-l="가격">1인 $10~20</td>
+            <tr><th scope="row" class="n nw">Ghirardelli<br><span style="color:var(--dim);font-size:0.8125rem">LINQ Promenade · 차 4분</span></th><td class="d nw" data-l="형태">소다파운틴<br><span style="color:var(--dim)">좌석 있음</span></td><td class="c" data-l="가격">1인 $10~20</td>
               <td class="d" data-l="왜 여기에 갔나">초콜릿 브랜드가 직접 운영하는 가게라 <b>케이크와 아이스크림을 같이 먹을 수 있고 좌석도 있습니다.</b> 메뉴판에 그림이 있어 처음 방문해도 고를 수 있습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Ladurée<br><span style="color:var(--dim);font-size:13px">Paris Las Vegas / Wynn</span></th><td class="d nw" data-l="형태">마카롱 · 티<br>좌석 있음</td><td class="c" data-l="가격">1개 $3~4<br>6개 세트 $18~24</td>
+            <tr><th scope="row" class="n nw">Ladurée<br><span style="color:var(--dim);font-size:0.8125rem">Paris Las Vegas / Wynn</span></th><td class="d nw" data-l="형태">마카롱 · 티<br>좌석 있음</td><td class="c" data-l="가격">1개 $3~4<br>6개 세트 $18~24</td>
               <td class="d" data-l="왜 여기에 갔나"><b>한 개가 입만 한 크기라 여러 개 드셔도 됩니다.</b> 카지노 안이라 슬롯머신 줄에서 기다릴 때 챙겨 갈 수 있습니다. 테이크아웃하면 3~4시간 버팁니다.</td></tr>
-            <tr><th scope="row" class="n nw">Milk Bar<br><span style="color:var(--dim);font-size:13px">Jean-Georges (NYNY) · 도보 8분</span></th><td class="d nw" data-l="형태">소프트서브<br>좌석 적음</td><td class="c" data-l="가격">1인 $10~18</td>
+            <tr><th scope="row" class="n nw">Milk Bar<br><span style="color:var(--dim);font-size:0.8125rem">Jean-Georges (NYNY) · 도보 8분</span></th><td class="d nw" data-l="형태">소프트서브<br>좌석 적음</td><td class="c" data-l="가격">1인 $10~18</td>
               <td class="d" data-l="왜 여기에 갔나">콘 모양으로 떠 주는 소프트서브가 대표 메뉴입니다. <b>자정~01:00 무렵까지 하는 날이 많아 11/29(일) O 쇼(20:00 종료) 뒤에도 갈 수 있습니다.</b></td></tr>
-            <tr><th scope="row" class="n nw">Insomnia Cookies<br><span style="color:var(--dim);font-size:13px">스트립 여러 지점</span></th><td class="d nw" data-l="형태">쿠키<br>테이크아웃</td><td class="c" data-l="가격">1개 $3~5</td>
+            <tr><th scope="row" class="n nw">Insomnia Cookies<br><span style="color:var(--dim);font-size:0.8125rem">스트립 여러 지점</span></th><td class="d nw" data-l="형태">쿠키<br>테이크아웃</td><td class="c" data-l="가격">1개 $3~5</td>
               <td class="d" data-l="왜 여기에 갔나"><b>자정~03:00 무렵까지 합니다.</b> 11/29(일) O 쇼가 20:00에 끝나고 돌아오는 길에 사두세요. 개 단위로 팔아 한 개만 사 가도 됩니다.</td></tr>
-            <tr><th scope="row" class="n nw">CrazyShake<br><span style="color:var(--dim);font-size:13px">Black Tap (Venetian) · 차 20분</span></th><td class="d nw" data-l="형태">과한 밀크셰이크</td><td class="c" data-l="가격">1인 $15~20</td>
+            <tr><th scope="row" class="n nw">CrazyShake<br><span style="color:var(--dim);font-size:0.8125rem">Black Tap (Venetian) · 차 20분</span></th><td class="d nw" data-l="형태">과한 밀크셰이크</td><td class="c" data-l="가격">1인 $15~20</td>
               <td class="d" data-l="왜 여기에 갔나">컵 위에 케이크와 쿠키를 잔뜩 올려 나옵니다. <b>한 잔의 양이 많습니다.</b> 성인 기준 한 잔 값이 나가니 나눠 먹는 편이 낫습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Sugar Factory<br><span style="color:var(--dim);font-size:13px">Harmon Corner · 차 5분</span></th><td class="d nw" data-l="형태">공연이 붙은 디저트<br>좌석 있음</td><td class="c" data-l="가격">1인 $15~25</td>
+            <tr><th scope="row" class="n nw">Sugar Factory<br><span style="color:var(--dim);font-size:0.8125rem">Harmon Corner · 차 5분</span></th><td class="d nw" data-l="형태">공연이 붙은 디저트<br>좌석 있음</td><td class="c" data-l="가격">1인 $15~25</td>
               <td class="d" data-l="왜 여기에 갔나">카페처럼 보이지만 디저트를 시키면 불·소리가 나는 쇼가 나옵니다. <b>시간이 맞을 때 들어가야 하고</b>, 공연이 끝나면 출입 동선이 막혀 헤맬 수 있습니다.</td></tr>
-            <tr><th scope="row" class="n nw">Kate's Korner<br><span style="color:var(--dim);font-size:13px">South Point · 차 20분</span></th><td class="d nw" data-l="형태">아이스크림 · 스무디</td><td class="c" data-l="가격">선베이크 $7.75~8.95</td>
+            <tr><th scope="row" class="n nw">Kate's Korner<br><span style="color:var(--dim);font-size:0.8125rem">South Point · 차 20분</span></th><td class="d nw" data-l="형태">아이스크림 · 스무디</td><td class="c" data-l="가격">선베이크 $7.75~8.95</td>
               <td class="d" data-l="왜 여기에 갔나">1인 8달러대 선베이크. 12/4(금) 공항으로 가는 길(서남쪽)에 어차피 지나갑니다. <b>일정에 넣고 가지 마세요</b> — 식사 중에 빠지는 동선입니다.</td></tr>
           </tbody>
         </table>
@@ -2950,15 +3028,15 @@ html.js .reveal.in{opacity:1;transform:none}
 
     <div class="panel reveal" style="margin-bottom:30px">
       <h3 style="margin-bottom:6px">🚫 7세와 함께라면 피해야 할 것</h3>
-      <p style="font-size:14px;color:var(--muted)">라스베이거스에서 7세와 함께라면 이 세 가지만 주의하면 됩니다.</p>
+      <p style="font-size:0.875rem;color:var(--muted)">라스베이거스에서 7세와 함께라면 이 세 가지만 주의하면 됩니다.</p>
       <div class="tblwrap" style="margin-top:14px">
         <table class="tbl">
             <caption class="sr-only">7세와 함께라면 피해야 할 것</caption>
             <thead><tr><th scope="col" style="width:24%">이건 피해주세요</th><th scope="col" style="width:20%">어디에 있나</th><th scope="col">이유와 대안</th></tr></thead>
           <tbody>
-            <tr><th scope="row" class="n nw">라운지 · 클럽<br><span style="color:var(--dim);font-size:13px">바 근처 입구 검문</span></th><td class="d nw" data-l="어디에 있나">스트립 호텔 3층<br>주요 공연장 주변</td>
+            <tr><th scope="row" class="n nw">라운지 · 클럽<br><span style="color:var(--dim);font-size:0.8125rem">바 근처 입구 검문</span></th><td class="d nw" data-l="어디에 있나">스트립 호텔 3층<br>주요 공연장 주변</td>
               <td class="d" data-l="이유와 대안">입구에 "21+"가 붙어 있으면 들어갈 수 없습니다. 7세는 입장 자체가 안 되고, 입장하려 하면 기분이 상합니다. <b>대안:</b> 1층 바·카페나 스위트룸에서 저녁 먹기(Carmine's, Ghirardelli, Ladurée).</td></tr>
-            <tr><th scope="row" class="n nw">피너뷰(REVUE) 성인 쇼<br><span style="color:var(--dim);font-size:13px">호텔·관광지 내 상설 공연</span></th><td class="d nw" data-l="어디에 있나">일부 호텔 2~3층<br>강연장</td>
+            <tr><th scope="row" class="n nw">피너뷰(REVUE) 성인 쇼<br><span style="color:var(--dim);font-size:0.8125rem">호텔·관광지 내 상설 공연</span></th><td class="d nw" data-l="어디에 있나">일부 호텔 2~3층<br>강연장</td>
               <td class="d" data-l="이유와 대안">코스튬 위 revue로 7세에게 보여주기 곤란한 공연이 여러 곳에 있습니다. <b>11/29(일) 18:30 O 쇼는 전연령 가족 공연이라 7세와 보셔도 됩니다.</b> 혹시 다른 쇼를 보시려면 공식 사이트에서 등급을 꼭 확인하세요.</td></tr>
             <tr><th scope="row" class="n nw">카지노 안 홀로 두지 않기</th><td class="d nw" data-l="어디에 있나">MGM·벨라지오<br>홀 내부</td>
               <td class="d" data-l="이유와 대안">연습 칩이 7세 손에 넘어갈 수 있습니다. <b>대안:</b> 카운터에서 100~500달러만 환전해서 부모가 직접 다루고, 7세는 식당·쇼 가든 쪽에 데려가세요.</td></tr>
@@ -2988,7 +3066,7 @@ html.js .reveal.in{opacity:1;transform:none}
           <li>Mon Ami Gabi</li>
           <li>Joe’s Seafood</li><li>Wolfgang Puck Bar &amp; Grill</li>
         </ul>
-        <p style="margin-top:10px;font-size:13px">만달레이베이 안에서 다녀올 수 있는 곳입니다.</p>
+        <p style="margin-top:10px;font-size:0.8125rem">만달레이베이 안에서 다녀올 수 있는 곳입니다.</p>
       </article>
       <article class="card">
         <p class="card__num">11/29 저녁 · MGM GRAND</p>
@@ -2997,7 +3075,7 @@ html.js .reveal.in{opacity:1;transform:none}
           <li>MGM 내 식당 — 도보 이동</li>
           <li>스트립 거리의 캐주얼 다이닝</li>
         </ul>
-        <p style="margin-top:10px;font-size:13px">벨라지오 O 쇼가 20:00 전후에 끝나므로, 늦은 시간까지 열어 두는 곳을 고르면 편합니다.</p>
+        <p style="margin-top:10px;font-size:0.8125rem">벨라지오 O 쇼가 20:00 전후에 끝나므로, 늦은 시간까지 열어 두는 곳을 고르면 편합니다.</p>
       </article>
       <article class="card">
         <p class="card__num">11/30 점심 · MGM GRAND</p>
@@ -3014,7 +3092,7 @@ html.js .reveal.in{opacity:1;transform:none}
           <li>Din Tai Fung</li><li>Grand Wok</li><li>America</li>
           <li>Food Hall</li><li>Shake Shack</li>
         </ul>
-        <p style="margin-top:10px;font-size:13px">세 날 연속이라 각 날짜마다 다른 곳을 고르는 편이 좋습니다.</p>
+        <p style="margin-top:10px;font-size:0.8125rem">세 날 연속이라 각 날짜마다 다른 곳을 고르는 편이 좋습니다.</p>
       </article>
       <article class="card">
         <p class="card__num">12/4 점심 · SPRINGDALE</p>
@@ -3059,7 +3137,7 @@ html.js .reveal.in{opacity:1;transform:none}
           <li>Route 66 Historic District 일대의 로컬 식당</li>
           <li>먼 길이므로 정석보다 가벼운 메뉴 추천</li>
         </ul>
-        <p style="margin-top:10px;font-size:13px">일정표에는 식당 이름이 없으므로 이 구간만 현장에서 정하면 됩니다.</p>
+        <p style="margin-top:10px;font-size:0.8125rem">일정표에는 식당 이름이 없으므로 이 구간만 현장에서 정하면 됩니다.</p>
       </article>
     </div>
   </div>
@@ -3230,7 +3308,19 @@ html.js .reveal.in{opacity:1;transform:none}
         b.setAttribute('tabindex', on ? '0' : '-1');
         var p = document.getElementById(b.getAttribute('aria-controls'));
         if (p) p.hidden = !on;
-        if (on) announce(plainLabel(b) + ' 보기');
+        if (on) {
+          announce(plainLabel(b) + ' 보기');
+          // 390px 에서 5개 탭이 가로 스크롤이라 ④⑤ 는 처음에 화면 밖에 있다.
+          // 키보드로 넘어갈 때 선택된 탭이 보이도록 끌어온다.
+          var list = b.parentNode;
+          if (list.scrollWidth > list.clientWidth + 4) {
+            var lb = b.getBoundingClientRect(), lr = list.getBoundingClientRect();
+            if (lb.right > lr.right || lb.left < lr.left) {
+              list.scrollTo({ left: b.offsetLeft - list.clientWidth / 2 + b.offsetWidth / 2,
+                              behavior: reduce ? 'auto' : 'smooth' });
+            }
+          }
+        }
       });
       if (focus) tbtns[idx].focus();
     }
@@ -3337,6 +3427,27 @@ html.js .reveal.in{opacity:1;transform:none}
     c.querySelectorAll('small, .ptab__i, .rflag').forEach(function (n) { n.remove(); });
     return c.textContent.replace(/\s+/g, ' ').trim();
   }
+  // ── 글자 크기 3단계 ──────────────────────────────────────
+  // html{font-size} 를 바꿔 rem 기반 레이아웃 전체를 함께 키운다.
+  // 가시성이 낮은 문서에서 본문을 25% 만 키워도 12~15px 는 여전히 작다.
+  var FS_PCT = ['100%', '112%', '125%'];
+  function applyFS(i, save) {
+    i = Math.max(0, Math.min(FS_PCT.length - 1, i | 0));
+    document.documentElement.style.fontSize = FS_PCT[i];
+    document.querySelectorAll('.fsz__b').forEach(function (b) {
+      b.setAttribute('aria-pressed', (+b.dataset.fs === i) ? 'true' : 'false');
+    });
+    if (save !== false) { try { localStorage.setItem('lv-fs', String(i)); } catch (e) {} }
+    // 고정 바 높이가 글자에 따라 달라지므로 다시 실측해야 한다
+    syncSticky();
+    announce('글자 크기 ' + ['보통', '크게', '아주 크게'][i] + '로 설정했습니다');
+  }
+  document.querySelectorAll('.fsz__b').forEach(function (b) {
+    b.addEventListener('click', function () { applyFS(+b.dataset.fs); });
+  });
+  try { applyFS(parseInt(localStorage.getItem('lv-fs') || '0', 10), false); }
+  catch (e) { applyFS(0, false); }
+
   function announce(msg) {
     var lv = document.getElementById('live');
     if (lv) lv.textContent = msg;
@@ -3554,7 +3665,7 @@ html.js .reveal.in{opacity:1;transform:none}
     secretpizza:{g:'피자',w:'**Fontainebleau** — MGM에서 차 10분',h:'24시간',p:'$ (12인치 피자 $18~24)',
       m:'12인치 시그니처 피자, 로제또 소스',r:'대기 줄이 길지만 회전이 빠름',star:1,
       t:'매니저 아저씨의 이름을 딴 피자집입니다. 매운맛과 안 매운맛을 따로 고를 수 있습니다. 심야에도 열려 있어 11/28 저녁이 비는 날에 맞습니다.'},
-    spotteddog:{g:'캐주얼 아메리칸 · 농장 직거래 요리',w:'스프링데일 · 428 Zion Park Blvd (Flanigan resort 내)',h:'대체로 11:00~21:00',p:'$$ (1인 $20~40)',
+    spotteddog:{g:'캐주얼 아메리칸 · 농장 직거래 요리',w:'스프링데일 · 428 Zion Park Blvd (플라니건스 리조트 내)',h:'대체로 11:00~21:00',p:'$$ (1인 $20~40)',
       m:'샐러드, 파스타, 와이너리',r:'대기 보통 · 좌석 넓음',star:1,
       t:'자이언 입구에서 5분 거리 비스트로입니다. 넓은 라운지 좌석과 유모차 통로가 있어 가족이 편하게 식사합니다.'},
     hangrygoat:{g:'카페 · 정통',w:'스프링데일 · 1876 Zion Park Blvd (버진강 다리 근처)',h:'점심~저녁',p:'$$ (1인 $16~30)',
@@ -3592,7 +3703,7 @@ html.js .reveal.in{opacity:1;transform:none}
       t:'라스베이거스에서 저널링하게 유명한 저렴한 뷔페입니다. 다만 07:30 개점이 평일 아침 8시보다 이르고 월~목은 쉬니, 금·토·일 아침에 30분만 일찍 일어나는 것이 비용을 아끼는 방법입니다.'},
     mssbuffet:{g:'아메리칸 조식 뷔페',w:'**Main Street Station** (다운타운) — MGM에서 차 12분',h:'매일 08:00~14:00 · 금·토 16:00~21:00',p:'$ (월~금 $23.99 / 주말 브런치 $26.99)',
       m:'스크램블, 팬케이크, 치즈 오멜렛, 해산물',r:'현장 대기',coffee:1,
-      t:'주류 미제공 카지노 뷔페 중 제일 저렴한 편이라, 아침만 대충 먹고 싶을 때 비용이 가장 적게 듭니다. 다만 스트립에서 벗어나므로 렌터카가 없으면 taxi 타야 합니다.'},
+      t:'주류 미제공 카지노 뷔페 중 제일 저렴한 편이라, 아침만 대충 먹고 싶을 때 비용이 가장 적게 듭니다. 다만 스트립에서 벗어나므로 렌터카가 없으면 택시를 타야 합니다.'},
     wynnbuffet:{g:'프리미엄 브런치 뷔페',w:'**Wynn Las Vegas** — MGM에서 도보 5분',h:'매일 08:00~13:00',p:'$$$ (성인 $59.99 / 3~9세 $29.99, 세금·팁 별도)',
       m:'연어 플레이트, 참치, 파스타, 조각 요리, 디저트',star:1,r:'예약 권장',res:1,coffee:1,
       t:'**티켓에 커피·청음료·프루츠 주스 무제한이 명시적으로 포함**되어 있어 커피만 놓고 봐도 할 가치가 있습니다. 7세는 $29.99입니다.'},
@@ -3735,7 +3846,7 @@ html.js .reveal.in{opacity:1;transform:none}
   var mdl = document.getElementById('rmodal');
   var lastFocus = null;
   function esc(t){ var d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
-  // 데이터 안의 **강조** 표기를 실제 굵게로 (escaping 이후에 치환해 안전)
+  // 데이터 안의 **강조** 표기를 실제 굵게로 (이스케이프 처리 후 치환해 안전)
   function fmt(t){ return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
   function openRestaurant(key, label){
     var d = R[key];
