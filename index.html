@@ -127,6 +127,44 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border-bottom:1px solid var(--line-soft);
 }
 .ptabs__in{display:flex;gap:8px;align-items:center;max-width:var(--maxw);margin:0 auto;padding:8px 20px}
+  /* ── 검색 ──────────────────────────────────────────────
+     65화면짜리 문서에서 위에서부터 훑는 유일한 방법이 없었던 것을 채운다. */
+  .find{margin-top:18px;max-width:640px}
+  .find__lb{display:block;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+  .find__row{position:relative;display:flex;align-items:center}
+  .find__i{width:100%;min-height:48px;padding:12px 44px 12px 15px;
+    border:1px solid var(--line);border-radius:12px;background:rgba(10,6,16,.72);
+    color:var(--text);font:inherit;font-size:.9375rem;-webkit-appearance:none}
+  .find__i::placeholder{color:var(--dim)}
+  .find__i:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+  .find__x{position:absolute;right:4px;width:44px;height:44px;border:0;border-radius:9px;
+    background:transparent;color:var(--dim);font-size:1.25rem;cursor:pointer}
+  .find__x:hover{background:rgba(255,255,255,.07);color:var(--text)}
+  .find__hint{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:9px 0 0;font-size:.75rem;color:var(--dim)}
+  .find__hint button{min-height:32px;padding:0 9px;border:1px solid var(--line);border-radius:8px;
+    background:rgba(255,255,255,.04);color:var(--muted);font:inherit;font-size:.75rem;cursor:pointer}
+  .find__hint button:hover{border-color:var(--gold);color:var(--gold)}
+  .find__out{list-style:none;margin:10px 0 0;padding:0;max-height:min(52vh,420px);overflow-y:auto;
+    border:1px solid var(--line);border-radius:12px;background:rgba(10,6,16,.94);backdrop-filter:blur(14px)}
+  .find__it{display:block;width:100%;text-align:left;padding:11px 13px;border:0;border-bottom:1px solid var(--line-soft);
+    background:transparent;color:var(--text);font:inherit;cursor:pointer}
+  .find__it:last-child{border-bottom:0}
+  .find__it:hover,.find__it.is-cur{background:rgba(255,200,87,.13)}
+  .find__k{display:inline-block;margin-right:7px;padding:1px 7px;border-radius:6px;
+    background:rgba(255,200,87,.16);color:var(--gold);font-size:.6875rem;font-weight:700;white-space:nowrap}
+  .find__lb2{display:block;font-size:.8125rem;line-height:1.45}
+  .find__sn{display:block;margin-top:3px;color:var(--muted);font-size:.75rem;line-height:1.5}
+  .find__sn mark{background:rgba(255,200,87,.3);color:#fff;border-radius:2px}
+  .find__g{color:var(--dim);font-size:.6875rem;margin-right:2px}
+  /* 검색으로 점프한 자리를 잠깐 표시한다 */
+  .find-hit{animation:findhit 2.4s ease-out}
+  @keyframes findhit{0%,22%{outline:2px solid var(--gold);outline-offset:4px;border-radius:10px;background:rgba(255,200,87,.09)}
+                     100%{outline-color:transparent;background:transparent}}
+  @media (prefers-reduced-motion:reduce){.find-hit{animation:none;outline:2px solid var(--gold);outline-offset:4px}}
+  .find__it mark{background:rgba(255,200,87,.3);color:inherit;border-radius:2px;font-weight:700}
+  .find__none{padding:14px;color:var(--dim);font-size:.8125rem}
+  @media(max-width:400px){.find__i{font-size:.875rem}}
+
   .ptabs__row{display:flex;gap:8px;flex:1 1 auto}
   /* 글자 크기 3단계 — html font-size 를 바꿔 rem 레이아웃 전체를 함께 키운다 */
   .fsz{display:flex;gap:2px;flex:0 0 auto;align-self:center}
@@ -659,6 +697,25 @@ html.js .reveal.in{opacity:1;transform:none}
       <span class="chipstat">약 740<span>마일 렌터카 이동</span></span>
       <span class="chipstat">3<span>개 주 · 2개 국립공원</span></span>
     </div>
+    <form class="find" role="search" onsubmit="return false">
+      <label class="find__lb" for="find">지금 필요한 걸 바로 찾기</label>
+      <div class="find__row">
+        <input id="find" class="find__i" type="search" autocomplete="off" spellcheck="false"
+               enterkeyhint="search" aria-describedby="find-cnt"
+               placeholder="예) 12/8 저녁 · 안텔로프 · 비거주자 과금 · 일출 시간">
+        <button type="button" class="find__x" hidden aria-label="검색어 지우기">×</button>
+      </div>
+      <p class="find__hint" id="find-cnt">
+        <span>바로 찾기</span>
+        <button type="button" data-q="12/8 저녁">12/8 저녁</button>
+        <button type="button" data-q="예약 필수">예약 필수</button>
+        <button type="button" data-q="일출">일출</button>
+        <button type="button" data-q="화장실">화장실</button>
+        <button type="button" data-q="비거주자">비거주자 과금</button>
+        <button type="button" data-q="체크아웃">체크아웃</button>
+      </p>
+      <ul class="find__out" hidden aria-label="검색 결과"></ul>
+    </form>
   </div>
   <div class="scrollcue" aria-hidden="true"><span>Scroll</span><i></i></div>
 </header>
@@ -1722,7 +1779,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="ev">
           <span class="ev__time">15:00</span>
           <h3>Big Water — 화석과 공룡</h3>
-          <p>페치에서 약 1시간 거리의 마을. 주변에는 유타주 최초 인류 정착 유적과 공룡 화석이 남아 있어
+          <p>페이지에서 약 1시간 거리의 마을. 주변에는 유타주 최초 인류 정착 유적과 공룡 화석이 남아 있어
             “이 땅이 얼마나 오래됐는가”를 체감하는 장소입니다. 넓은 하늘과 낮은 사막 지형이 이어집니다.</p>
           <ul class="dots"><li>거의 무인촌 같은 분위기</li><li>주변 야외 활동은 일찍 종료</li><li>해가 지면 급격히 추워짐</li><li>하늘이 개방돼 일출·일몰이 선명함</li></ul>
           <div class="shots">
@@ -1740,7 +1797,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="ev">
           <span class="ev__time">저녁</span>
           <h3>자유 — 페이지로 복귀</h3>
-          <p>일찍 페치로 돌아가 저녁을 먹고 쉬는 편을 권합니다. 내일 08:00에 그랜드캐니언으로 출발해
+          <p>일찍 페이지로 돌아가 저녁을 먹고 쉬는 편을 권합니다. 내일 08:00에 그랜드캐니언으로 출발해
             낮 동안 전망대 4곳을 돌기 때문입니다.</p>
           <div class="note note--rest">
             <b>오늘 밤 체크리스트:</b> ① 내일 주행 거리 약 180마일 / 3시간 15분 ② 그랜드캐니언 입구 주차장 예약 여부
@@ -1767,7 +1824,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="ev">
           <span class="ev__time">08:00</span>
           <h3>그랜드캐니언으로 이동</h3>
-          <p>페이지에서 출발해 남쪽 림(South Rim)으로 갑니다. 페치 근처 계곡 지대를 지나면 풍경이 점점 넓어지고,
+          <p>페이지에서 출발해 남쪽 림(South Rim)으로 갑니다. 페이지 근처 계곡 지대를 지나면 풍경이 점점 넓어지고,
             마지막 1시간은 드라이브 자체가 전망이 됩니다. 공원이 넓어 이동에만 3시간 15분이 걸립니다.</p>
           <ul class="dots"><li>휴게소에서 안내·통행 정보 제공</li><li>야간 운행 구간 있음</li><li>도로가 잘 되어 있어 운전 부담이 낮음</li><li>휴대폰 신호 일부 구간 약함</li></ul>
         </div>
@@ -3457,6 +3514,210 @@ html.js .reveal.in{opacity:1;transform:none}
   });
   try { applyFS(parseInt(localStorage.getItem('lv-fs') || '0', 10), false); }
   catch (e) { applyFS(0, false); }
+
+  // ── 검색 ──────────────────────────────────────────────
+  // 색인은 첫 입력 시에만 만든다. 문서 전체 innerText 를 읽는 비용을 그때로 미룬다.
+  var FIND = null, findCur = -1, FIND_LAST = [];
+  var PANEL_NAME = { 'p-itin': '전체 일정', 'p-vegas': '라스베이거스', 'p-food': '식당 정보' };
+  function norm(t) { return (t || '').replace(/\s+/g, ' ').trim(); }
+  // "12월 4일" → "12/4". 사용자는 12/4 · 12/04 · 12/4(금) 중 어느 형태로나 친다.
+  function dayScope(txt) {
+    var m = /(\d{1,2})\s*월\s*(\d{1,2})\s*일/.exec(txt || '');
+    var out = m ? (parseInt(m[1], 10) + '/' + parseInt(m[2], 10)) : '';
+    var w = /\(([월화수목금토일])\)/.exec(txt || '');
+    if (out && w) out += '(' + w[1] + ')';
+    return out;
+  }
+  var GROUP_NAME = { vegas: '라스베이거스', springdale: '스프링데일', page: '페이지',
+                     gc: '그랜드캐니언', korea: '한국', kingman: '킹그먼' };
+  function snippet(text, terms) {
+    var lo = text.toLowerCase().replace(/(\d+)\/0(\d)/g, '$1/$2'), at = -1;
+    for (var i = 0; i < terms.length; i++) { var p = lo.indexOf(terms[i]); if (p >= 0 && (at < 0 || p < at)) at = p; }
+    if (at < 0) return esc(text.slice(0, 96)) + (text.length > 96 ? '…' : '');
+    var from = Math.max(0, at - 28);
+    var out = (from ? '…' : '') + esc(text.slice(from, from + 118));
+    out = out.replace(new RegExp('(' + terms.map(esc).join('|') + ')', 'gi'), '<mark>$1</mark>');
+    return out + (text.length > from + 118 ? '…' : '');
+  }
+  function buildIndex() {
+    if (FIND) return FIND;
+    FIND = [];
+    document.querySelectorAll('.ppanel').forEach(function (panel) {
+      var pk = panel.id;
+      // 1) 시간 블록 — "12/8 저녁" 같은 질문이 정확한 시각으로 이동해야 한다.
+      //    날짜는 부모 섹션의 배지에만 있으므로 검색 범위에 함께 넣는다.
+      panel.querySelectorAll('.day .ev').forEach(function (ev) {
+        var day = ev.closest('.day');
+        var badge = day ? norm((day.querySelector('.day__badge') || {}).textContent) : '';
+        var scope = dayScope(badge);
+        var time = norm((ev.querySelector('.ev__time') || {}).textContent);
+        var head = norm((ev.querySelector('h3') || {}).textContent);
+        var txt = norm(ev.textContent);
+        FIND.push({
+          panel: pk, el: ev, kind: '시각', scope: scope,
+          label: (scope ? scope + ' · ' : '') + (time ? time + ' ' : '') + head,
+          text: scope + ' ' + txt, raw: txt,
+          title: (scope + ' ' + time + ' ' + head).toLowerCase()
+        });
+      });
+      // 2) 날짜 섹션 전체 — "12/4 에 뭐가 있나" 같은 날짜 단독 질문
+      panel.querySelectorAll('section.day[id]').forEach(function (sec) {
+        var badge = norm((sec.querySelector('.day__badge') || {}).textContent);
+        var head = norm((sec.querySelector('h2') || {}).textContent);
+        var scope = dayScope(badge);
+        FIND.push({ panel: pk, el: sec, kind: '날짜', scope: scope,
+                    label: scope ? scope + ' ' + head : (badge || head),
+                    text: scope + ' ' + norm(sec.textContent), raw: norm(sec.textContent),
+                    title: (scope + ' ' + badge + ' ' + head).toLowerCase() });
+      });
+      // 3) 꼭 들를 곳 카드
+      panel.querySelectorAll('.mt').forEach(function (mt) {
+        var nm = norm((mt.querySelector('b') || {}).textContent) || norm(mt.textContent).slice(0, 50);
+        var sub = norm((mt.querySelector('.mt__day') || {}).textContent);
+        FIND.push({
+          panel: pk, el: mt, kind: '장소', scope: '',
+          label: nm + (sub ? ' · ' + sub : ''),
+          text: norm(mt.textContent), raw: norm(mt.textContent),
+          title: nm.toLowerCase()
+        });
+      });
+      // 4) 식당 — 누르면 상세가 열린다. 칩에 이미 영업시간·가격이 함께 적혀 있다.
+      panel.querySelectorAll('.rchip[data-r]').forEach(function (c) {
+        var g = c.closest('.rlist');
+        var gid = g ? g.getAttribute('data-group') : '';
+        var grp = GROUP_NAME[gid] || '추천 장소';
+        var nm = norm((c.querySelector('b') || {}).textContent);
+        var txt = norm(c.textContent);
+        FIND.push({
+          panel: pk, el: c, kind: '식당', scope: '', r: c.getAttribute('data-r'),
+          label: nm, group: grp, text: txt, raw: txt,
+          title: (nm + ' ' + grp).toLowerCase()
+        });
+      });
+      // 5) 참고 아코디언
+      panel.querySelectorAll('.acc__i').forEach(function (a) {
+        var q = a.querySelector('.acc__q');
+        var ql = norm((q || a).textContent).slice(0, 60);
+        var txt = norm(a.textContent);
+        FIND.push({ panel: pk, el: q || a, kind: '참고', scope: '',
+                    label: ql, text: txt, raw: txt, title: ql.toLowerCase() });
+      });
+    });
+    return FIND;
+  }
+  function runFind(q) {
+    var out = document.querySelector('.find__out'), inp = document.getElementById('find');
+    var xb = document.querySelector('.find__x');
+    q = norm(q);
+    if (xb) xb.hidden = !q;
+    if (!q) { out.hidden = true; out.innerHTML = ''; findCur = -1; FIND_LAST = []; return; }
+    // 12/4 = 12/04 = 12/4(금) 을 같은 것으로 본다
+    var terms = q.toLowerCase().replace(/(\d+)\/0(\d)/g, '$1/$2').split(/\s+/).filter(Boolean);
+    function hit(text, t) { return text.replace(/(\d+)\/0(\d)/g, '$1/$2').indexOf(t) >= 0; }
+    var hits = [];
+    buildIndex().forEach(function (it) {
+      var lo = it.text.toLowerCase().replace(/(\d+)\/0(\d)/g, '$1/$2');
+      var ti = it.title, sc = (it.scope || '').toLowerCase();
+      var ok = true, titleHits = 0, scopeOk = true;
+      for (var i = 0; i < terms.length; i++) {
+        if (lo.indexOf(terms[i]) < 0) { ok = false; break; }
+        if (ti.indexOf(terms[i]) >= 0) titleHits++;
+        if (sc.indexOf(terms[i]) < 0) scopeOk = false;
+      }
+      if (!ok) return;
+      // 제목에 많이 걸린 것 → 날짜까지 정확히 맞는 것 → 짧은 항목.
+      // (이게 없으면 "12/8 저녁" 에 12/6 저녁 이 1위로 올라온다)
+      var score = (-titleHits * 1000) + (scopeOk ? -600 : 0) + Math.min(it.raw.length, 3000);
+      hits.push({ it: it, score: score });
+    });
+    hits.sort(function (a, b) { return a.score - b.score; });
+    var top = hits.slice(0, 40);
+    // 표시된 순서와 실제 객체의 대응을 보존한다.
+    // (이전처럼 전체 색인에서 data-i 로 조회하면 엉뚱한 항목으로 점프했다)
+    FIND_LAST = top.map(function (h) { return h.it; });
+    findCur = -1;
+    if (!top.length) {
+      out.innerHTML = '<li class="find__none">\u2018' + esc(q) + '\u2019 에 해당하는 내용이 없습니다. 다른 말로 시도해 보세요 (예: 12/8, 저녁, 비거주자).</li>';
+    } else {
+      out.innerHTML = top.map(function (h, i) {
+        var it = h.it;
+        var where = (it.kind === '식당' ? PANEL_NAME[it.panel] + ' \u203a ' + (it.group || '') : PANEL_NAME[it.panel]);
+        return '<li><button type="button" class="find__it" data-i="' + i + '">' +
+          '<span class="find__lb2"><span class="find__k">' + it.kind + '</span>' +
+          (it.kind === '식당' ? '<span class="find__g">' + esc(where) + '</span> \u00b7 ' : '') +
+          esc(it.label) + '</span>' +
+          (it.kind === '식당' ? '' : '<span class="find__sn">' + snippet(it.raw, terms) + '</span>') +
+          '</button></li>';
+      }).join('') + (hits.length > top.length
+        ? '<li class="find__none">외 ' + (hits.length - top.length) + '건 더 있습니다. 더 좁혀지려면 더 구체적인 말을 쓰세요.</li>' : '');
+    }
+    out.hidden = false;
+    inp.setAttribute('aria-expanded', 'true');
+    announce(top.length ? ('검색 결과 ' + hits.length + '건') : '검색 결과 없음');
+  }
+  function openFind(i) {
+    var out = document.querySelector('.find__out');
+    var btn = out.querySelector('.find__it[data-i="' + i + '"]');
+    if (!btn) return;
+    var h = FIND_LAST[+btn.getAttribute('data-i')];
+    if (!h) return;
+    out.hidden = true;
+    if (getActivePanel() !== h.panel) showPage(h.panel);
+    requestAnimationFrame(function () {
+      if (h.r) { openRestaurant(h.r, h.label); return; }
+      var y = Math.max(0, h.el.getBoundingClientRect().top + window.scrollY - stackH() - 10);
+      window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+      refreshReveals(h.el);
+      h.el.classList.add('find-hit');
+      setTimeout(function () { h.el.classList.remove('find-hit'); }, 2400);
+    });
+  }
+  var fInp = document.getElementById('find'), fTimer = null;
+  fInp.addEventListener('input', function () {
+    clearTimeout(fTimer);
+    fTimer = setTimeout(function () { runFind(fInp.value); }, 140);
+  });
+  fInp.addEventListener('keydown', function (e) {
+    var out = document.querySelector('.find__out');
+    var items = out.querySelectorAll('.find__it');
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!items.length) return;
+      e.preventDefault();
+      findCur = (findCur + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+      items.forEach(function (b, i) { b.classList.toggle('is-cur', i === findCur); });
+      items[findCur].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+      if (items.length) { e.preventDefault(); openFind(findCur >= 0 ? findCur : 0); }
+    } else if (e.key === 'Escape') {
+      if (!out.hidden) { out.hidden = true; }
+      else { fInp.value = ''; runFind(''); }
+      fInp.blur();
+    }
+  });
+  document.querySelector('.find__x').addEventListener('click', function () {
+    fInp.value = ''; runFind(''); fInp.focus();
+  });
+  document.querySelectorAll('.find__hint button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      fInp.value = b.getAttribute('data-q');
+      runFind(fInp.value); fInp.focus();
+    });
+  });
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.find__it');
+    if (btn) { openFind(+btn.getAttribute('data-i')); return; }
+    // 결과 목록 바깥을 누르면 닫는다
+    if (!e.target.closest('.find') && !document.querySelector('.find__out').hidden) {
+      document.querySelector('.find__out').hidden = true;
+    }
+  });
+  // "/" 로 검색창에 바로 들어간다 — 긴 문서에서 가장 자주 쓰이는 단축키
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    e.preventDefault(); fInp.focus(); fInp.select();
+  });
 
   function announce(msg) {
     var lv = document.getElementById('live');
