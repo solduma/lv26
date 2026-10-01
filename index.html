@@ -149,10 +149,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    그래야 고정 바가 3행으로 접혀 화면의 22% 를 먹지 않는다. */
 @media(max-width:560px){
   .ptab__i{display:none}
-  .ptab{padding:8px 12px;flex:1}
+  .ptab{padding:8px 12px;flex:1;min-width:0}
   .ptab__t{font-size:0.9375rem;line-height:1.2}
   .ptab__t small{display:none}
   .fsz__b{min-width:32px;min-height:44px;font-size:.8125rem;padding:0 2px}
+}
+/* 320px (iPhone SE 1세대) 에서는 세 탭 + 글자 크기 그룹이 남은 폭을 나눠 갖는다.
+   여백·글자 크기를 더 줄이지 않으면 "라스베이거스" 가 6행으로 접혀 고정 바가 화면의 24% 를 먹는다. */
+@media(max-width:400px){
+  .ptabs__in{padding:6px 10px;gap:6px}
+  .ptabs__row{gap:4px}
+  .ptab{padding:7px 6px}
+  .ptab__t{font-size:0.8125rem}
+  .fsz{gap:0}
+  .fsz__b{min-width:28px;font-size:.75rem;border-radius:7px}
 }
 .ppanel[hidden]{display:none}
 
