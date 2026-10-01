@@ -428,7 +428,7 @@ section{position:relative}
 /* ============================================================
    6-2. 식당 참조 버튼 + 상세 모달
    ============================================================ */
-.ref{min-height:26px;padding:3px 5px;
+.ref{min-height:44px;padding:9px 6px;display:inline-flex;align-items:center;
   display:inline;padding:1px 5px;margin:-1px 0;border-radius:5px;font:inherit;font-size:inherit;
   color:var(--text);background:rgba(255,200,87,.1);border-bottom:1px dashed rgba(255,200,87,.55);
   cursor:pointer;transition:.16s ease;text-align:left;
@@ -603,13 +603,19 @@ html.js .reveal.in{opacity:1;transform:none}
 }
 @media print{
   body{background:#fff;color:#111}
-  .daynav,.scrollcue,.hero__glow{display:none}
+  .daynav,.scrollcue,.hero__glow,.ptabs,.tabs__list,.skip,.rmodal,.tblwrap::after{display:none !important}
   .hero{min-height:auto}
+  .hero__bg img{display:none}
+  /* 스크롤 전에는 .reveal 이 opacity:0 이다. 인쇄하면 26개 블록이 통째로 빈칸이 된다 */
+  html.js .reveal,.reveal{opacity:1 !important;transform:none !important}
+  .day{break-before:page}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:0.62rem;color:#666;word-break:break-all}
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">본문으로 건너뛰기</a>
+<p id="live" class="sr-only" role="status" aria-live="polite"></p>
 
 <!-- ==================== 히어로 ==================== -->
 <header class="hero">
@@ -624,7 +630,7 @@ html.js .reveal.in{opacity:1;transform:none}
     <p class="hero__lede">
       라스베이거스의 쇼와 리조트 휴식, 자이언의 붉은 협곡, 페이그의 우호두 바위,
       그랜드캐니언의 일출과 별밤까지. 2026년 11월 27일부터 12월 9일까지,
-      매일의 동선을 사진·설명·영상 링크와 함께 정리했습니다.
+      매일의 동선을 사진·설명·영상 링크와 함께 담았습니다.
     </p>
     <div class="hero__meta">
       <span class="chipstat">13<span>일 / 12박</span></span>
@@ -640,15 +646,15 @@ html.js .reveal.in{opacity:1;transform:none}
 <nav class="ptabs" aria-label="페이지 구분">
   <div class="ptabs__in" role="tablist" aria-label="문서 큰 항목">
     <button class="ptab" role="tab" id="pg1" aria-controls="p-itin" aria-selected="true">
-      <span class="ptab__i">🗓</span>
+      <span class="ptab__i" aria-hidden="true">🗓</span>
       <span class="ptab__t">전체 일정<small>11/27 – 12/9 · Day 1~13</small></span>
     </button>
     <button class="ptab" role="tab" id="pg2" aria-controls="p-vegas" aria-selected="false">
-      <span class="ptab__i">🎡</span>
+      <span class="ptab__i" aria-hidden="true">🎡</span>
       <span class="ptab__t">라스베이거스 주간 활동<small>11/30 – 12/3 · 여유 있는 4일</small></span>
     </button>
     <button class="ptab" role="tab" id="pg3" aria-controls="p-food" aria-selected="false">
-      <span class="ptab__i">🍽</span>
+      <span class="ptab__i" aria-hidden="true">🍽</span>
       <span class="ptab__t">식당 정보<small><span class="cnt">80</span>곳 · ★ <span class="cnt">12</span>곳</small></span>
     </button>
   </div>
@@ -690,7 +696,7 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="cards reveal">
       <article class="card">
         <p class="card__num">STEP 01</p>
-        <h4>🔥 라스베이거스 · 2박</h4>
+        <h3>🔥 라스베이거스 · 2박</h3>
         <p>11/27(금) – 11/28(토) · Mandalay Bay<br>
           도착·벨라지오 분수·O 쇼·Sphere까지 몰아서 보는 구간. 11/27은 블랙프라이데이(추수감사절 다음 날)라 식당과 쇼가 빨리 마감합니다.</p>
       </article>
@@ -940,7 +946,7 @@ html.js .reveal.in{opacity:1;transform:none}
             <li>Wolfgang Puck Bar &amp; Grill — 비빔밥·불고기 등 메뉴 폭 넓음</li>
           </ul>
           <div class="note">
-            <b>오늘은 예약 없이 천천히 골라도 됩니다.</b> 만달레이베이에서 다녀올 수 있는 곳만 모았습니다.
+            <b>오늘은 예약 없이 천천히 골라도 됩니다.</b> 만달레이베이에서 걸어서 다녀올 수 있는 곳만 두었습니다.
           </div>
         </div>
       </div>
@@ -2098,7 +2104,7 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="cards reveal" style="margin-top:26px">
       <article class="card">
         <p class="card__num">GOLDEN HOUR</p>
-        <h4>일출 직전 20분 · 일몰 직전 20분</h4>
+        <h3>일출 직전 20분 · 일몰 직전 20분</h3>
         <p>협곡 벽이 주황·분홍으로 물드는 시간. Mather Point(12/8 07:10~07:25)와 Hopi Point(12/8 16:50~17:15) 외에는
           다른 행사가 잡히지 않도록 두는 편이 좋습니다.</p>
       </article>
@@ -2134,7 +2140,7 @@ html.js .reveal.in{opacity:1;transform:none}
         <button class="acc__q" type="button">🚗 렌터카 — 무엇을 확인하고 어떻게 고르나</button>
         <div class="acc__a"><div>
           큰 SUV가 필요하지 않습니다. 일정이 고속도로 위주라 세단도 충분하고 기름값이 절반 이하로 떨어집니다.
-          상태가 좋은 차를 원한다면 중형 SUV가 무난합니다. 개인적으로는 “미니밴 + 운전 편한 기능” 조합을 추천합니다.
+          중형 SUV 한 대면 충분합니다. 짐이 많을 수 있어 세단은 좁고, 가장 큰 차는 주차장에서 발이 막힙니다.
           <ul class="dots" style="margin-top:10px">
             <li>반드시 가져갈 것: 여권 · 운전면허 · 예약에 쓴 신용카드</li>
             <li>추가 운전자 등록 시 이름도 사전에</li>
@@ -2258,7 +2264,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <p class="kicker">Vegas Day Trips · 11/30 – 12/3</p>
       <h2>11월 30일 ~ 12월 3일 — 여유 있는 4일</h2>
       <p>이 구간은 MGM에 계속 머무르는 날이라 다른 날과 성격이 다릅니다. 이동 없이 갈 수 있는 곳, 차로 10~15분,
-        하루를 통째로 쓰는 곳으로 나눠 후보를 모았습니다. <b>일정표에 이미 잡힌 조식·식사·휴식 시간을 뺀 나머지 시간</b>에 넣을 수 있는 곳입니다. 아래 탭에서 골라 보세요.</p>
+        하루를 통째로 쓰는 곳으로 나눴습니다. <b>일정표에 이미 잡힌 조식·식사·휴식 시간을 뺀 나머지 시간</b>에 넣을 수 있는 곳입니다. 아래 탭에서 골라 보세요.</p>
     </div>
 
     <div class="fitgrid reveal">
@@ -2584,11 +2590,11 @@ html.js .reveal.in{opacity:1;transform:none}
         <div class="sec__head reveal">
       <p class="kicker">Restaurant Guide</p>
       <h2>식당 정보</h2>
-      <p>11/27 – 12/9 일정에 이용할 수 있는 식당을 지역별로 모았습니다.</p>
+      <p>11/27 – 12/9 일정에 이용할 수 있는 식당입니다.</p>
     </div>
 <div class="reveal" id="food-index">
       <h3 style="margin:0 0 4px">전체 80곳</h3>
-      <p style="font-size:13.5px;color:var(--dim);margin:0 0 12px">지역별로 모았습니다. <span class="rflag rflag--r2">예약 필수</span> <span class="rflag rflag--r1">예약 권장</span> <span class="rflag rflag--cf">커피 포함</span> <span class="rflag rflag--rec">추천</span> <span class="legend">★</span> 표시가 붙습니다. 이름을 누르면 상세가 열립니다.</p>
+      <p style="font-size:13.5px;color:var(--dim);margin:0 0 12px"><span class="rflag rflag--r2">예약 필수</span> <span class="rflag rflag--r1">예약 권장</span> <span class="rflag rflag--cf">커피 포함</span> <span class="rflag rflag--rec">추천</span> <span class="legend">★</span> 표시가 붙습니다. 이름을 누르면 상세가 열립니다.</p>
       <div class="jump">
         <a href="#food-vegas" data-count="vegas">🏨 라스베이거스 <b class="cnt">–</b></a>
         <a href="#food-springdale" data-count="springdale">🏔️ 스프링데일 <b class="cnt">–</b></a>
@@ -2686,33 +2692,33 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="reveal" id="food-vegas">
       <h3 style="margin:0 0 4px">🏨 라스베이거스</h3>
       <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">11/27 – 12/3 · 만달레이베이 · MGM · 인접 호텔 · <span class="legend">★</span>는 평판이 가장 좋은 곳</p>
-      <div class="rlist" data-group="vegas">        <button class="rchip is-star" data-r="mgmbuffet" type="button"><span class="rchip__star">★</span><b>MGM Grand Buffet</b><span>MGM 건물 안 · 08:00~15:00 · $32~43</span></button>
+      <div class="rlist" data-group="vegas">        <button class="rchip is-star" data-r="mgmbuffet" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>MGM Grand Buffet</b><span>MGM 건물 안 · 08:00~15:00 · $32~43</span></button>
         <button class="rchip" data-r="excalbuffet" type="button"><b>Excalibur Buffet</b><span>07시 오픈 · $32~43</span></button>
         <button class="rchip" data-r="luxorbuffet" type="button"><b>Luxor Buffet</b><span>수~일만 · $32~38</span></button>
         <button class="rchip" data-r="sabre" type="button"><b>Sabre (Circus Circus)</b><span>금~일 07:30 · $30~50</span></button>
         <button class="rchip" data-r="mssbuffet" type="button"><b>Main Street Station</b><span>다운타운 · $24~27</span></button>
-        <button class="rchip is-star" data-r="wynnbuffet" type="button"><span class="rchip__star">★</span><b>Wynn Buffet</b><span>도보 5분 · $60 · 커피 무제한 명시</span></button>
+        <button class="rchip is-star" data-r="wynnbuffet" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Wynn Buffet</b><span>도보 5분 · $60 · 커피 무제한 명시</span></button>
         <button class="rchip" data-r="vegascoffeecard" type="button"><b>Vegas Coffee Card</b><span>카드 1장 · 유효기간 내 무제한 리필</span></button>
         <button class="rchip" data-r="buffetasia" type="button"><b>Buffet At Asia</b><span>Rainbow Blvd · 중식 뷔페 · $</span></button>
         <button class="rchip" data-r="palacefeast" type="button"><b>Feast Buffet (Palace Station)</b><span>W Sahara · 혼합 뷔페 · 조식 $14</span></button>
         <button class="rchip" data-r="dennys" type="button"><b>Denny's</b><span>W Sahara · 24시간 팬케이크 · $</span></button>
         <button class="rchip" data-r="ihop" type="button"><b>IHOP</b><span>S Rainbow · 24시간 팬케이크 · $</span></button>
         <button class="rchip" data-r="carmines" type="button"><b>Titanic (Carmine's)</b><span>Forum Shops · 초대형 선베이크 · 예약 권장</span></button>
-        <button class="rchip is-star" data-r="cheesecakefactory" type="button"><span class="rchip__star">★</span><b>Cheesecake Factory</b><span>MGM 2층 · 케이크 $</span></button>
+        <button class="rchip is-star" data-r="cheesecakefactory" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Cheesecake Factory</b><span>MGM 2층 · 케이크 $</span></button>
         <button class="rchip" data-r="ghirardelli" type="button"><b>Ghirardelli</b><span>LINQ · 소다파운틴 · $$</span></button>
         <button class="rchip" data-r="laduree" type="button"><b>Ladurée</b><span>Paris/Wynn · 마카롱 · $</span></button>
-        <button class="rchip is-star" data-r="bellagio" type="button"><span class="rchip__star">★</span><b>Mayfair's Rose</b><span>Bellagio · 24층 초콜릿 · 예약 필수</span></button>
+        <button class="rchip is-star" data-r="bellagio" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Mayfair's Rose</b><span>Bellagio · 24층 초콜릿 · 예약 필수</span></button>
         <button class="rchip" data-r="milkbar" type="button"><b>Milk Bar</b><span>NYNY · 소프트서브 · $$</span></button>
         <button class="rchip" data-r="insomnia" type="button"><b>Insomnia Cookies</b><span>스트립 · 늦게까지 · $</span></button>
         <button class="rchip" data-r="sugarfactory" type="button"><b>Sugar Factory</b><span>Harmon Ave · 쇼 디저트 · $$$</span></button>
         <button class="rchip" data-r="crazyshake" type="button"><b>CrazyShake</b><span>Venetian · 과한 밀크셰이크 · $$</span></button>
         <button class="rchip" data-r="kateskorner" type="button"><b>Kate's Korner</b><span>South Point · 선베이크 $8 · $</span></button>
-        <button class="rchip is-star" data-r="mag" type="button"><span class="rchip__star">★</span><b>Mon Ami Gabi</b><span>파리라스베이거스 · 프랑스 비스트로 · $$</span></button>
-        <button class="rchip is-star" data-r="joes" type="button"><span class="rchip__star">★</span><b>Joe's Seafood</b><span>Forum Shops · 해산물 · $$$</span></button>
-        <button class="rchip is-star" data-r="wpg" type="button"><span class="rchip__star">★</span><b>Wolfgang Puck Bar &amp; Grill</b><span>MGM · 아메리칸 · $$$</span></button>
-        <button class="rchip is-star" data-r="dtf" type="button"><span class="rchip__star">★</span><b>Din Tai Fung</b><span>ARIA · 중식·만두 · $$</span></button>
-        <button class="rchip is-star" data-r="hellkitchen" type="button"><span class="rchip__star">★</span><b>Gordon Ramsay Hell's Kitchen</b><span>Planet Hollywood · 오픈 키친 · $$$</span></button>
-        <button class="rchip is-star" data-r="secretpizza" type="button"><span class="rchip__star">★</span><b>Secret Pizza</b><span>Fontainebleau · 24시간 피자 · $</span></button>
+        <button class="rchip is-star" data-r="mag" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Mon Ami Gabi</b><span>파리라스베이거스 · 프랑스 비스트로 · $$</span></button>
+        <button class="rchip is-star" data-r="joes" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Joe's Seafood</b><span>Forum Shops · 해산물 · $$$</span></button>
+        <button class="rchip is-star" data-r="wpg" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Wolfgang Puck Bar &amp; Grill</b><span>MGM · 아메리칸 · $$$</span></button>
+        <button class="rchip is-star" data-r="dtf" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Din Tai Fung</b><span>ARIA · 중식·만두 · $$</span></button>
+        <button class="rchip is-star" data-r="hellkitchen" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Gordon Ramsay Hell's Kitchen</b><span>Planet Hollywood · 오픈 키친 · $$$</span></button>
+        <button class="rchip is-star" data-r="secretpizza" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Secret Pizza</b><span>Fontainebleau · 24시간 피자 · $</span></button>
         <button class="rchip" data-r="grb" type="button"><b>Gordon Ramsay Burger</b><span>만달레이베이 · 버거 · $</span></button>
         <button class="rchip" data-r="bestfriend" type="button"><b>Best Friend</b><span>Park MGM · 한식 · $$</span></button>
         <button class="rchip" data-r="grandwok" type="button"><b>Grand Wok Noodle Bar</b><span>MGM · 아시아 노면 · $$</span></button>
@@ -2730,11 +2736,11 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="reveal" id="food-springdale" style="margin-top:34px">
       <h3 style="margin:0 0 4px">🏔️ 자이언 · 스프링데일 (12/4)</h3>
       <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">협곡 입구 마을 · 모두 차 5분 이내</p>
-      <div class="rlist" data-group="springdale">        <button class="rchip is-star" data-r="oscars" type="button"><span class="rchip__star">★</span><b>Oscar's Cafe</b><span>브런치·멕시코·아메리칸 · $$</span></button>
-        <button class="rchip is-star" data-r="spotteddog" type="button"><span class="rchip__star">★</span><b>Spotted Dog</b><span>피자·버거 · 유모차 OK · $$</span></button>
-        <button class="rchip is-star" data-r="hangrygoat" type="button"><span class="rchip__star">★</span><b>The Hangry Goat</b><span>강변 정원 · 정통 · $$</span></button>
-        <button class="rchip is-star" data-r="bitandspur" type="button"><span class="rchip__star">★</span><b>Bit and Spur</b><span>살롱풍 캐주얼 · $$</span></button>
-        <button class="rchip is-star" data-r="kingslanding" type="button"><span class="rchip__star">★</span><b>King's Landing Bistro</b><span>협곡 전망 브런치 · $$$</span></button>
+      <div class="rlist" data-group="springdale">        <button class="rchip is-star" data-r="oscars" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Oscar's Cafe</b><span>브런치·멕시코·아메리칸 · $$</span></button>
+        <button class="rchip is-star" data-r="spotteddog" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Spotted Dog</b><span>피자·버거 · 유모차 OK · $$</span></button>
+        <button class="rchip is-star" data-r="hangrygoat" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>The Hangry Goat</b><span>강변 정원 · 정통 · $$</span></button>
+        <button class="rchip is-star" data-r="bitandspur" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Bit and Spur</b><span>살롱풍 캐주얼 · $$</span></button>
+        <button class="rchip is-star" data-r="kingslanding" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>King's Landing Bistro</b><span>협곡 전망 브런치 · $$$</span></button>
         <button class="rchip" data-r="brewpub" type="button"><b>Zion Canyon Brew Pub</b><span>호프 · 버거 · $$</span></button>
         <button class="rchip" data-r="porters" type="button"><b>Porter's</b><span>이탈리안·아메리칸 · $$$</span></button>
         <button class="rchip" data-r="whiptail" type="button"><b>Whiptail Grill</b><span>멕시노·버거·피자 · $$</span></button>
@@ -2745,10 +2751,10 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="reveal" id="food-page" style="margin-top:34px">
       <h3 style="margin:0 0 4px">🏜️ 페이지 (12/5 – 12/6)</h3>
       <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">모두 시내 도보권 · 작은 마을이라 대기 있음</p>
-      <div class="rlist" data-group="page">        <button class="rchip is-star" data-r="bigjohns" type="button"><span class="rchip__star">★</span><b>Big John's Texas BBQ</b><span>텍사스 바비큐 · $$</span></button>
-        <button class="rchip is-star" data-r="fiesta" type="button"><span class="rchip__star">★</span><b>Fiesta Mexicana</b><span>멕시코 가정식 · $$</span></button>
-        <button class="rchip is-star" data-r="dambar" type="button"><span class="rchip__star">★</span><b>Dam Bar &amp; Grille</b><span>시내 로컬 · 10:30~21:30 · $$</span></button>
-        <button class="rchip is-star" data-r="gcbrewing" type="button"><span class="rchip__star">★</span><b>Grand Canyon Brewing</b><span>직접 제조 맥주 · $$</span></button>
+      <div class="rlist" data-group="page">        <button class="rchip is-star" data-r="bigjohns" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Big John's Texas BBQ</b><span>텍사스 바비큐 · $$</span></button>
+        <button class="rchip is-star" data-r="fiesta" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Fiesta Mexicana</b><span>멕시코 가정식 · $$</span></button>
+        <button class="rchip is-star" data-r="dambar" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Dam Bar &amp; Grille</b><span>시내 로컬 · 10:30~21:30 · $$</span></button>
+        <button class="rchip is-star" data-r="gcbrewing" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Grand Canyon Brewing</b><span>직접 제조 맥주 · $$</span></button>
         <button class="rchip" data-r="ranchhouse" type="button"><b>Ranch House Grille</b><span>서남부 가정식 · 06~15시 · $</span></button>
         <button class="rchip" data-r="state48" type="button"><b>State 48 Tavern</b><span>스포츠바 · 저녁만 · $$</span></button>
         <button class="rchip" data-r="slackers" type="button"><b>Slackers</b><span>캐주얼 델리 · $</span></button>
@@ -2761,12 +2767,12 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="reveal" id="food-gc" style="margin-top:34px">
       <h3 style="margin:0 0 4px">⛰️ 그랜드캐니언 빌리지 (12/7 – 12/8)</h3>
       <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">공원 안 상업지구 · 리조트가 아니라 바로 식사 가능</p>
-      <div class="rlist" data-group="gc">        <button class="rchip is-star" data-r="eltovar" type="button"><span class="rchip__star">★</span><b>El Tovar Dining Room</b><span>1905년 호텔 · 아메리칸·서남부 · $$$</span></button>
-        <button class="rchip is-star" data-r="maswikfc" type="button"><span class="rchip__star">★</span><b>Maswik Food Court</b><span>남림 최대 푸드홀 · 6:00~21:00 · $</span></button>
-        <button class="rchip is-star" data-r="arizonasteak" type="button"><span class="rchip__star">★</span><b>Arizona Steakhouse</b><span>Bright Angel · 협곡 전망 · $$$</span></button>
-        <button class="rchip is-star" data-r="yavapai" type="button"><span class="rchip__star">★</span><b>Yavapai Dining Hall</b><span>아침 7시 오픈 · 셀프 조식 · $$</span></button>
-        <button class="rchip is-star" data-r="squirepub" type="button"><span class="rchip__star">★</span><b>Squire Pub + Social</b><span>게임기 · 투사얀 · $$</span></button>
-        <button class="rchip is-star" data-r="fredharvey" type="button"><span class="rchip__star">★</span><b>Fred Harvey Burger</b><span>트레일 입구 · 가볍게 · $</span></button>
+      <div class="rlist" data-group="gc">        <button class="rchip is-star" data-r="eltovar" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>El Tovar Dining Room</b><span>1905년 호텔 · 아메리칸·서남부 · $$$</span></button>
+        <button class="rchip is-star" data-r="maswikfc" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Maswik Food Court</b><span>남림 최대 푸드홀 · 6:00~21:00 · $</span></button>
+        <button class="rchip is-star" data-r="arizonasteak" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Arizona Steakhouse</b><span>Bright Angel · 협곡 전망 · $$$</span></button>
+        <button class="rchip is-star" data-r="yavapai" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Yavapai Dining Hall</b><span>아침 7시 오픈 · 셀프 조식 · $$</span></button>
+        <button class="rchip is-star" data-r="squirepub" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Squire Pub + Social</b><span>게임기 · 투사얀 · $$</span></button>
+        <button class="rchip is-star" data-r="fredharvey" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>Fred Harvey Burger</b><span>트레일 입구 · 가볍게 · $</span></button>
         <button class="rchip" data-r="arizonaroom" type="button"><b>Arizona Room</b><span>캐주얼 가족 식당 · $$</span></button>
         <button class="rchip" data-r="brightangel" type="button"><b>Bright Angel Restaurant</b><span>1935년 호텔 · 클래식 · $$</span></button>
         <button class="rchip" data-r="maswikpizza" type="button"><b>Maswik Pizza Pub</b><span>피자·맥주 · $$</span></button>
@@ -2781,7 +2787,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <h3 style="margin:0 0 4px">✨ 추천 장소</h3>
       <p style="font-size:13.5px;color:var(--dim);margin-bottom:0">한국 기준으로 의미가 있는 곳 · 채이나타운(스프링 마운틴로·레이보우)에 대부분 몰려 있습니다</p>
       <div class="rlist" data-group="korea">
-        <button class="rchip is-star" data-r="kgbbq" type="button"><span class="rchip__star">★</span><b>KG BBQ (Korean Garden)</b><span>차이나타운 · 무한리필 $40</span></button>
+        <button class="rchip is-star" data-r="kgbbq" type="button"><span class="rchip__star" aria-hidden="true">★</span><b>KG BBQ (Korean Garden)</b><span>차이나타운 · 무한리필 $40</span></button>
         <button class="rchip" data-r="dohbbq" type="button"><b>Doh Korean BBQ</b><span>S Rainbow · 24시간 무한리필</span></button>
         <button class="rchip" data-r="ranch99" type="button"><b>99 Ranch Market</b><span>차이나타운 · 한국 식재료</span></button>
         <button class="rchip" data-r="hmart" type="button"><b>H Mart</b><span>Las Vegas 지점 · 생활용품</span></button>
@@ -2830,7 +2836,7 @@ html.js .reveal.in{opacity:1;transform:none}
     <div class="panel reveal" style="margin-bottom:30px">
       <h3 style="margin-bottom:6px">☕ 커피 무제한 · 아침만 먹는 곳</h3>
       <p style="font-size:14px;color:var(--muted)">
-        커피는 보통 한 잔 값을 따로 내야 합니다. <b>무제한이거나 식사료에 들어 있는 곳만 따로 모았습니다.</b>
+        커피는 보통 한 잔 값을 따로 내야 합니다. <b>무제한이거나 식사료에 들어 있는 곳만 따로 두었습니다.</b>
         뷔페는 셀프서비스라 원하는 것만 집어 먹으면 됩니다. 처음 가는 날은 11시 오픈 직후가 한산합니다.
       </p>
       <div class="tblwrap" style="margin-top:14px">
@@ -2851,7 +2857,7 @@ html.js .reveal.in{opacity:1;transform:none}
         </table>
       </div>
       <div class="note note--warn" style="margin-top:16px">
-        <b>우리 일정이면 이렇게 쓰면 됩니다:</b> 11/28(토) 저녁이 비어 있으므로 그날 아침을 MGM Grand Buffet에 씁니다(도보 3분).
+        11/28(토) 저녁이 비어 있으므로 그날 아침은 MGM Grand Buffet에서 먹으면 됩니다(도보 3분).
         12/4(금) 렌터카를 09:00에 받으려면 07:00에 일어나야 하는데, MGM은 08:00에 열립니다 — <b>Excalibur(07:00)까지 셔틀을 타거나 그냥 30분 더 자는 게 현실적</b>입니다.
         공원 밖(페이지·스프링데일)에는 이런 자리가 없습니다. 12/4~12/6에는 보통 카페 한 잔 값($4~6)을 따로 내야 합니다.
       </div>
@@ -3208,6 +3214,7 @@ html.js .reveal.in{opacity:1;transform:none}
         b.setAttribute('tabindex', on ? '0' : '-1');
         var p = document.getElementById(b.getAttribute('aria-controls'));
         if (p) p.hidden = !on;
+        if (on) announce(plainLabel(b) + ' 보기');
       });
       if (focus) tbtns[idx].focus();
     }
@@ -3280,6 +3287,7 @@ html.js .reveal.in{opacity:1;transform:none}
     var panel = pPanels[key];
     if (panel) refreshReveals(panel);
     if (key === 'p-itin') syncChip();
+    announce(plainLabel(document.querySelector('.ptab[aria-controls="' + key + '"] .ptab__t')) + ' 탭으로 이동했습니다');
   }
   // 앵커 id → 소속 패널. 푸터 바로가기와 점프 칩이 이 맵을 보고 탭을 먼저 연다.
   var PANEL_OF = {};
@@ -3306,6 +3314,17 @@ html.js .reveal.in{opacity:1;transform:none}
     });
   }
 
+  // 라이브 리전용 라벨 — 숨겨진 <small> 과 아이콘은 빼고 제목만 읽는다
+  function plainLabel(el) {
+    if (!el) return '';
+    var c = el.cloneNode(true);
+    c.querySelectorAll('small, .ptab__i, .rflag').forEach(function (n) { n.remove(); });
+    return c.textContent.replace(/\s+/g, ' ').trim();
+  }
+  function announce(msg) {
+    var lv = document.getElementById('live');
+    if (lv) lv.textContent = msg;
+  }
   function getActivePanel() {
     for (var i = 0; i < pTabs.length; i++) {
       if (pTabs[i].getAttribute('aria-selected') === 'true') return pTabs[i].getAttribute('aria-controls');
@@ -3339,11 +3358,41 @@ html.js .reveal.in{opacity:1;transform:none}
       var head = panel.querySelector('.sec__head, .mtgrid, h2') || panel;
       var y = Math.max(0, head.getBoundingClientRect().top + window.scrollY - stackH() - 4);
       window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+      // 탭 전환을 히스토리에 남겨 뒤로가기로 되돌아갈 수 있게 한다
+      try { history.pushState({ tab: key }, '', '#' + (TAB2HASH[key] || '')); } catch (err) {}
     });
   });
   // 해시로 들어온 경우 해당 패널을 먼저 연다
-  if (location.hash === '#vgday') showPage('p-vegas');
-  else if (location.hash === '#food') showPage('p-food');
+  // 해시로 진입한 경우: 앵커가 속한 패널을 열고 그 자리로 이동한다.
+  // ("…/lv26/#d8" 같은 링크를 받아도 12/8 로 바로 가야 한다)
+  function jumpToHash(behavior) {
+    var id = location.hash.slice(1);
+    if (!id) return;
+    var owner = PANEL_OF[id];
+    if (!owner) return;
+    if (getActivePanel() !== owner) showPage(owner);
+    requestAnimationFrame(function () {
+      var t = document.getElementById(id);
+      if (!t) return;
+      var y = Math.max(0, t.getBoundingClientRect().top + window.scrollY - stackH() - 6);
+      window.scrollTo({ top: y, behavior: behavior || (reduce ? 'auto' : 'smooth') });
+      refreshReveals(pPanels[owner]);
+    });
+  }
+  jumpToHash('auto');
+  window.addEventListener('hashchange', function () { jumpToHash('auto'); });
+
+  // 뒤로가기 / 앞으로가기로 탭 상태를 복원한다
+  var TAB2HASH = { 'p-itin': 'itin', 'p-vegas': 'vgday', 'p-food': 'food' };
+  var HASH2TAB = { itin: 'p-itin', vgday: 'p-vegas', food: 'p-food' };
+  // 초기 해시(#d8 등 딥링크)는 보존한다 — 지우면 새로고침 후 공유 링크가 끊긴다
+  try { history.replaceState({ tab: getActivePanel() }, '', location.pathname + location.search + location.hash); } catch (err) {}
+  window.addEventListener('popstate', function (e) {
+    var st = e.state || {};
+    var key = st.tab || HASH2TAB[location.hash.slice(1)] || 'p-itin';
+    if (pPanels[key]) showPage(key);
+    requestAnimationFrame(function () { syncSticky(); syncChip(); refreshReveals(pPanels[key]); });
+  });
   // 패널 밖 앵커 클릭 시 일정 패널로 되돌린다
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href^="#"]');
@@ -3705,6 +3754,7 @@ html.js .reveal.in{opacity:1;transform:none}
       el.setAttribute('aria-hidden', 'true');
     });
     mdl.querySelector('.rmodal__x').focus();
+    announce((label || key) + ' 상세 정보를 열었습니다');
   }
   function closeRestaurant(){
     if (!mdl || mdl.hidden) return;
@@ -3715,6 +3765,7 @@ html.js .reveal.in{opacity:1;transform:none}
       if ('inert' in el) el.inert = false;
       el.removeAttribute('aria-hidden');
     });
+    announce('상세를 닫았습니다');
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
   if (mdl) {
@@ -3781,7 +3832,9 @@ html.js .reveal.in{opacity:1;transform:none}
   // 아코디언 — 처음에는 전부 접는다 (스크립트가 돌 때만)
   document.querySelectorAll('.acc__q').forEach(function (q) {
     q.setAttribute('aria-expanded', 'false');
-    q.closest('.acc__i').querySelector('.acc__a').style.maxHeight = '0';
+    var ab = q.closest('.acc__i').querySelector('.acc__a');
+    ab.style.maxHeight = '0';
+    ab.setAttribute('aria-hidden', 'true');
     q.addEventListener('click', function () {
       var item = q.closest('.acc__i');
       var body = item.querySelector('.acc__a');
@@ -3789,11 +3842,13 @@ html.js .reveal.in{opacity:1;transform:none}
       document.querySelectorAll('.acc__i.on').forEach(function (other) {
         other.classList.remove('on');
         other.querySelector('.acc__a').style.maxHeight = '0';
+        other.querySelector('.acc__a').setAttribute('aria-hidden', 'true');
         other.querySelector('.acc__q').setAttribute('aria-expanded', 'false');
       });
       if (!open) {
         item.classList.add('on');
         body.style.maxHeight = body.scrollHeight + 'px';
+        body.setAttribute('aria-hidden', 'false');
         q.setAttribute('aria-expanded', 'true');
       }
     });
