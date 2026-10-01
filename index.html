@@ -88,9 +88,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:radial-gradient(60% 100% at 50% 100%,rgba(255,200,87,.28),transparent 70%);
   filter:blur(20px);
 }
-.hero__inner{padding:130px 0 108px;width:100%}
+.hero__inner{padding:130px 20px 108px;width:100%}
+/* 한글은 기본값으로 음절 어디서든 끊겨 제목이 "사막까/지" 처럼 쪼개진다.
+   keep-all 로 공백에서만 끊고, 한 단어가 줄보다 길 때만 예외적으로 끊는다. */
+body{word-break:keep-all;overflow-wrap:break-word}
 .hero h1{
-  font-size:clamp(2.5rem,7.4vw,5.4rem);font-weight:900;line-height:1.02;letter-spacing:-.035em;
+  /* 하한을 1.85rem 으로 낮춘 이유: 한글을 공백에서만 끊기(keep-all)시키면
+     "네온에서 붉은 사막까지" 가 통째로 다음 줄로 내려간다. 320px 에서 40px 라면
+     제목이 4줄이 되어 검색창이 화면 밖으로 밀린다. 실측 기준으로 이 크기면 2줄에 들어간다. */
+  font-size:clamp(1.85rem,7.4vw,5.4rem);font-weight:900;line-height:1.08;letter-spacing:-.035em;
   text-shadow:0 6px 40px rgba(0,0,0,.6);
 }
 .hero h1 em{
@@ -679,7 +685,7 @@ html.js .reveal.in{opacity:1;transform:none}
   .scrollcue i{animation:none}
 }
 @media(max-width:640px){
-  .hero__inner{padding:104px 0 84px}
+  .hero__inner{padding:104px 20px 84px}
   .day__badge{flex-direction:row;align-items:center;gap:10px}
   .scrollcue{display:none}
 }
@@ -726,7 +732,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="find__row">
         <input id="find" class="find__i" type="search" autocomplete="off" spellcheck="false"
                enterkeyhint="search" aria-describedby="find-cnt"
-               placeholder="예) 12/8 저녁 · 안텔로프 · 비거주자 과금 · 일출 시간">
+               placeholder="12/8 저녁 · 안텔로프 · 비거주자 과금">
         <button type="button" class="find__x" hidden aria-label="검색어 지우기">×</button>
       </div>
       <p class="find__hint" id="find-cnt">
