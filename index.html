@@ -152,12 +152,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .find__it:hover,.find__it.is-cur{background:rgba(255,200,87,.13)}
   .find__k{display:inline-block;margin-right:7px;padding:1px 7px;border-radius:6px;
     background:rgba(255,200,87,.16);color:var(--gold);font-size:.6875rem;font-weight:700;white-space:nowrap}
-  .find__lb2{display:block;font-size:.8125rem;line-height:1.45}
+  .find__lb2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
+    font-size:.8125rem;line-height:1.45}
   .find__sn{display:block;margin-top:3px;color:var(--muted);font-size:.75rem;line-height:1.5}
   .find__sn mark{background:rgba(255,200,87,.3);color:#fff;border-radius:2px}
   .find__g{color:var(--dim);font-size:.6875rem;margin-right:2px}
   /* 검색으로 점프한 자리를 잠깐 표시한다 */
   .find-hit{animation:findhit 2.4s ease-out}
+  /* <tr> 에는 outline 이 그려지지 않아 셀 배경으로 대신 표시한다 */
+  tr.find-hit>td,tr.find-hit>th{animation:findcell 2.4s ease-out}
+  @keyframes findcell{0%,22%{background:rgba(255,200,87,.24)}100%{background:transparent}}
   @keyframes findhit{0%,22%{outline:2px solid var(--gold);outline-offset:4px;border-radius:10px;background:rgba(255,200,87,.09)}
                      100%{outline-color:transparent;background:transparent}}
   @media (prefers-reduced-motion:reduce){.find-hit{animation:none;outline:2px solid var(--gold);outline-offset:4px}}
@@ -411,6 +415,13 @@ section{position:relative}
    6-1. 탭 + 표 (라-AS 주간 활동 후보)
    ============================================================ */
 .tabs{margin-top:26px}
+/* 두 축의 구분선. ①②③ 과 ④⑤ 가 같은 기준이라고 오독되는 것을 막는다. */
+.tabs__grp{display:flex;align-items:baseline;flex-wrap:wrap;gap:9px;margin:0 0 9px;font-size:.8125rem;line-height:1.5}
+.tabs__grp:first-of-type{margin-top:0}
+.tabs__grp b{color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:.1em}
+.tabs__grp span{color:var(--dim)}
+.tabs__grp+.tabs__list{margin-bottom:22px}
+@media(max-width:600px){.tabs__grp{margin-bottom:7px;font-size:.75rem}}
 .tabs__list{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:0}
 .tabs__btn{
   padding:12px 16px;border:1px solid transparent;border-bottom:0;border-radius:12px 12px 0 0;
@@ -2441,7 +2452,8 @@ html.js .reveal.in{opacity:1;transform:none}
     </div>
 
     <div class="tabs reveal" id="vgtabs">
-      <div class="tabs__list" role="tablist" aria-label="라스베이거스 주간 활동 후보 분류">
+      <p class="tabs__grp"><b>장소 고르기</b><span>MGM Grand 에서 얼마나 떨어져 있나</span></p>
+      <div class="tabs__list" role="tablist" aria-label="라스베이거스 주간 활동 후보 — MGM Grand 에서의 거리">
         <button class="tabs__btn" role="tab" id="tg1" aria-controls="tp1" aria-selected="true">
           ① 이동 거의 없음<small>무료 위주</small>
         </button>
@@ -2451,6 +2463,9 @@ html.js .reveal.in{opacity:1;transform:none}
         <button class="tabs__btn" role="tab" id="tg3" aria-controls="tp3" aria-selected="false">
           ③ 하루 종일<small>차 15~20분</small>
         </button>
+      </div>
+      <p class="tabs__grp"><b>일정 만들기</b><span>위에서 고른 걸 언제 갈지, 저녁엔 뭘 볼지</span></p>
+      <div class="tabs__list" role="tablist" aria-label="라스베이거스 4일 기본 배치와 저녁 공연">
         <button class="tabs__btn" role="tab" id="tg4" aria-controls="tp4" aria-selected="false">
           ④ 4일 기본 배치<small>날짜 × 시간 기본안</small>
         </button>
@@ -3405,9 +3420,12 @@ html.js .reveal.in{opacity:1;transform:none}
         var dir = { ArrowRight: 1, ArrowLeft: -1, Home: 'first', End: 'last' }[e.key];
         if (!dir) return;
         e.preventDefault();
-        var next = dir === 'first' ? 0 : dir === 'last' ? tbtns.length - 1
-          : (i + dir + tbtns.length) % tbtns.length;
-        selectTab(next, true);
+        var sib = [].slice.call(b.parentNode.querySelectorAll('[role="tab"]'));
+        var si = sib.indexOf(b);
+        var nextEl = dir === 'first' ? sib[0]
+          : dir === 'last' ? sib[sib.length - 1]
+          : sib[(si + dir + sib.length) % sib.length];
+        selectTab(tbtns.indexOf(nextEl), true);
       });
     });
   }
@@ -3542,6 +3560,15 @@ html.js .reveal.in{opacity:1;transform:none}
   }
   var GROUP_NAME = { vegas: '라스베이거스', springdale: '스프링데일', page: '페이지',
                      gc: '그랜드캐니언', korea: '한국', kingman: '킹그먼' };
+  // 결과 줄은 두 줄까지만. 첫 칸이 문장 전체인 표도 있어 잘라야 한다.
+  function clip(t, n) {
+    t = norm(t);
+    return t.length > n ? t.slice(0, n - 1).replace(/[\s\u00b7,]+$/, '') + '\u2026' : t;
+  }
+  function rowLabel(cells) {
+    var a = clip(cells[0] || '', 26), b = cells[1] ? clip(cells[1], 22) : '';
+    return a + (b && (a.length + b.length) < 46 ? ' \u2014 ' + b : '');
+  }
   function snippet(text, terms) {
     var lo = text.toLowerCase().replace(/(\d+)\/0(\d)/g, '$1/$2'), at = -1;
     for (var i = 0; i < terms.length; i++) { var p = lo.indexOf(terms[i]); if (p >= 0 && (at < 0 || p < at)) at = p; }
@@ -3606,7 +3633,24 @@ html.js .reveal.in{opacity:1;transform:none}
           title: (nm + ' ' + grp).toLowerCase()
         });
       });
-      // 5) 참고 아코디언
+      // 5) 표의 각 행 — 표에만 있는 정보(공연 시간·입장료·날짜별 배치)가
+      //    여태 검색에 전혀 걸리지 않았다. td/th 로 들어있는 사실을 그대로 색인한다.
+      panel.querySelectorAll('table').forEach(function (tb) {
+        var cap = norm((tb.querySelector('caption') || {}).textContent);
+        tb.querySelectorAll('tbody tr').forEach(function (tr) {
+          var cells = [].slice.call(tr.children).map(function (c) { return norm(c.textContent); });
+          var txt = cells.filter(Boolean).join(' · ');
+          if (txt.length < 3) return;
+          FIND.push({
+            panel: pk, el: tr, kind: '표', scope: '',
+            label: rowLabel(cells),
+            group: cap.slice(0, 40),
+            text: cap + ' ' + txt, raw: txt,
+            title: (cells[0] || '').toLowerCase()
+          });
+        });
+      });
+      // 6) 참고 아코디언
       panel.querySelectorAll('.acc__i').forEach(function (a) {
         var q = a.querySelector('.acc__q');
         var ql = norm((q || a).textContent).slice(0, 60);
@@ -3653,7 +3697,7 @@ html.js .reveal.in{opacity:1;transform:none}
     } else {
       out.innerHTML = top.map(function (h, i) {
         var it = h.it;
-        var where = (it.kind === '식당' ? PANEL_NAME[it.panel] + ' \u203a ' + (it.group || '') : PANEL_NAME[it.panel]);
+        var where = (it.group ? PANEL_NAME[it.panel] + ' \u203a ' + it.group : PANEL_NAME[it.panel]);
         return '<li><button type="button" class="find__it" data-i="' + i + '">' +
           '<span class="find__lb2"><span class="find__k">' + it.kind + '</span>' +
           (it.kind === '식당' ? '<span class="find__g">' + esc(where) + '</span> \u00b7 ' : '') +
