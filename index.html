@@ -336,13 +336,19 @@ section{position:relative}
 
 /* 음식 선택 칩 */
 .food{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.food button{min-height:44px;padding:11px 17px;
-  padding:8px 14px;border-radius:999px;font-size:0.875rem;border:1px solid var(--line);
+.food button{min-height:44px;padding:9px 13px;text-align:left;
+  border-radius:14px;font-size:0.875rem;border:1px solid var(--line);
   background:rgba(255,255,255,.04);transition:.2s ease;
 }
 .food button:hover{border-color:var(--accent)}
 .food button.is-on{background:var(--accent);border-color:var(--accent);color:#120a08;font-weight:700}
-.food button::after{content:' ▾';font-size:0.75rem;opacity:.55}
+.food__n{display:flex;align-items:baseline;gap:5px}
+.food__c{font-style:normal;font-size:0.75rem;opacity:.55}
+/* 영업시간 — "지금 열었나" 를 한 화면에서 판별하게 하는 것이 이 줄의 목적이다 */
+.food__h{display:block;margin-top:2px;color:var(--dim);font-size:0.6875rem;line-height:1.4;font-weight:400}
+.food button.is-on .food__h{color:rgba(18,10,8,.72)}
+.food__h[data-shut]{color:#f0a35e}
+@media(max-width:360px){.food button{padding:8px 11px;font-size:0.8125rem}}
 
 /* 음식 상세 패널 */
 
@@ -662,7 +668,8 @@ html.js .reveal.in{opacity:1;transform:none}
 }
 @media print{
   body{background:#fff;color:#111}
-  .daynav,.scrollcue,.hero__glow,.ptabs,.tabs__list,.skip,.rmodal,.tblwrap::after{display:none !important}
+  .daynav,.scrollcue,.hero__glow,.ptabs,.tabs__list,.skip,.rmodal,.tblwrap::after,
+  .find,.find__out,.find__hint{display:none !important}
   .hero{min-height:auto}
   .hero__bg img{display:none}
   /* 스크롤 전에는 .reveal 이 opacity:0 이다. 인쇄하면 26개 블록이 통째로 빈칸이 된다 */
@@ -734,7 +741,7 @@ html.js .reveal.in{opacity:1;transform:none}
     </button>
     <button class="ptab" role="tab" id="pg3" aria-controls="p-food" aria-selected="false">
       <span class="ptab__i" aria-hidden="true">🍽</span>
-      <span class="ptab__t">식당 정보<small><span class="cnt">80</span>곳 · ★ <span class="cnt">12</span>곳</small></span>
+      <span class="ptab__t">식당 정보<small><span class="cnt" data-all>80</span>곳 · ★ <span class="cnt" data-star>26</span>곳 · 필수 <span class="cnt" data-mt>12</span>곳</small></span>
     </button>
     </div>
     <div class="fsz" role="group" aria-label="글자 크기 조절">
@@ -1585,7 +1592,7 @@ html.js .reveal.in{opacity:1;transform:none}
         </div>
 
         <div class="ev">
-          <span class="ev__time">11:30</span>
+          <span class="ev__time">12:30</span>
           <h3>Toadstool Hoodoos</h3>
           <p>페이지 근처에만 있는, 정글처럼 생긴 붉은 바위 숲. 버섯처럼 넓은 머리를 가진 우호두(hoodoo)들이 선 세우고 서 있는 모습이 일제합니다.
             나무가 거의 없는 사막 지형 중 유일하게 그늘이 많아 점심 전 산책으로 좋습니다.</p>
@@ -2767,7 +2774,7 @@ html.js .reveal.in{opacity:1;transform:none}
 
 
     <div class="mtgrid reveal">
-      <h3 class="mtgrid__h">★ 이 일정에서 꼭 들를 곳 — 12곳</h3>
+      <h3 class="mtgrid__h">★ 이 일정에서 꼭 들를 곳 — <span data-mt>12</span>곳</h3>
       <p class="mtgrid__sub">카드마다 언제 갈지·왜 그 집인지가 적혀 있습니다.</p>
       <div class="mtgrid__row">
         <button class="mt" data-r="hellkitchen" type="button">
@@ -3416,14 +3423,19 @@ html.js .reveal.in{opacity:1;transform:none}
       var slot = el.querySelector('.cnt');
       if (slot) slot.textContent = v;
     });
+    // 상위 탭 라벨의 세 숫자는 서로 다른 개념이다.
+    //   data-all  = 색인에 오른 식당 전체
+    //   data-star = 그중 ★ 로 표시된 곳
+    //   data-mt   = "꼭 들를 곳" 카드 수 (색인 밖, 별도 개념)
+    // 마크업 하드코딩값과 스크립트 계산값이 어긋나 12 vs 26 으로 충돌하던 것을 없앤다.
     var all = document.querySelectorAll('#p-food .rchip[data-r]').length;
     var star = document.querySelectorAll('#p-food .rlist .rchip.is-star').length;
-    var top = document.querySelector('#pg3 .cnt');
-    if (top) {
-      var slots = top.parentElement.querySelectorAll('.cnt');
-      if (slots[0]) slots[0].textContent = all;
-      if (slots[1]) slots[1].textContent = star;
-    }
+    var mt = document.querySelectorAll('#p-food .mtgrid .mt').length;
+    function put(sel, v) { var el = document.querySelector(sel); if (el) el.textContent = v; }
+    put('#pg3 [data-all]', all);
+    put('#pg3 [data-star]', star);
+    put('#pg3 [data-mt]', mt);
+    put('#p-food [data-mt]', mt);
     var hi = document.querySelector('#food-index h3');
     if (hi) hi.textContent = '전체 ' + all + '곳';
   })();
@@ -3820,11 +3832,11 @@ html.js .reveal.in{opacity:1;transform:none}
       t:'주문 후 나가는 카운터식이라 회전이 빠릅니다. 다만 소속 호텔과 운영 시간은 리뉴얼로 바뀔 수 있어 방문 전 확인하세요.'},
     bestfriend:{g:'한식 · 코레아노운 감성',w:'**Park MGM** — 만달레이베이 아님',h:'월~목 16:00~23:00 · 금~토 ~24:00 · 일 16:00~23:00',p:'$$ (1인 $25~45)',
       m:'치즈볼, 불고기 비빔밥, 코리안 치킨, 김치 Fries',res:1,r:'예약 가능 · 평일 저녁 대기 있음',
-      t:'로이 초이 셰프의 한식 바. 점심에는 열지 않습니다. 저녁만 가능하니 11/27 첫날 저녁 후보로는 시간대가 맞지 않습니다.'},
+      t:'로이 초이 셰프의 한식 바. 점심에는 열지 않고 저녁(16시~)만 합니다. 금·토요일은 24:00까지여서 11/27 첫날 저녁으로 잘 맞습니다.'},
     mag:{g:'프랑스 비스트로 · 스테이크',w:'**Paris Las Vegas** — 만달레이베이 아님',h:'일~목 07:00~22:00 · 금~토 07:00~23:00',p:'$$ (픽스푸스 점심 $40 / 저녁 $70, 메인 $30~60)',
       m:'스이크 프뤼, 양송이 수프, 크로크 무시에',res:1,star:1,r:'피크타임 대기 60분 이상 · 예약 권장',
       t:'가장 잘 알려진 프랑스 비스트로입니다. 벨라지오 분수와 에펠탑을 보면서 식사할 수 있어 11/27 저녁에 제일 어울립니다.'},
-    grandwok:{g:'아시아 노면 · 셀프 구성',w:'MGM Grand (3795 S Las Vegas Blvd)',h:'월 11:00~21:30 · 화요일 휴무인 날 있음',p:'$$ (1인 $20~35)',
+    grandwok:{g:'아시아 노면 · 셀프 구성',w:'MGM Grand (3795 S Las Vegas Blvd)',h:'월·수·목 11:00~21:30 · 금~일 11:00~22:00 · 화요일 휴무',p:'$$ (1인 $20~35)',
       m:'웍 볶음 면, 볶음밥, 딤섬',r:'대기 보통 짧음',
       t:'먹고 싶은 것만 골라 담는 방식이라 7세가 못 먹을 것을 피하기 쉽습니다. 요일별 휴무가 있으니 출발 전에 확인하세요.'},
     joes:{g:'해산물 · 플레인 석게',w:'**Forum Shops (Caesars Palace)**',h:'월~목·일 11:30~21:00 · 금~토 ~22:00',p:'$$$ (1인 $50~120)',
@@ -4196,6 +4208,42 @@ html.js .reveal.in{opacity:1;transform:none}
     if (sub.querySelector('.rflag')) return;
     sub.insertAdjacentHTML('beforeend', flagHTML(d));
   });
+  // 점심 칩에 영업시간을 직접 얹는다.
+  // 마크업에 넣으면 R 데이터와 어긋나므로, 첫 실행에 데이터에서 만든다.
+  function chipHours(h) {
+    if (!h) return '';
+    var out = '';
+    if (/24시간/.test(h)) out = '24시간';
+    else {
+      // 시간 구간은 조건이 붙은 경우에만 함께 보여 준다.
+      //   "점심 11:30~14:30 / 저녁 17:00~22:00"  → 둘 다 (하루 중 두 덩어리라 뜻이 분명)
+      //   "09:00~01:00 · 화~금 Happy hour 14:00~18:00" → 첫 구간만
+      //     뒤의 것을 떼면 "화~금" 이 사라져 매일인 것처럼 읽힌다.
+      var all = h.match(/\d{1,2}:\d{2}\s*[~\-–]\s*\d{1,2}:\d{2}/g) || [];
+      var uniq = all.filter(function (v, i) { return all.indexOf(v) === i; });
+      var slots = /(점심|저녁|브런치)[^·]*\d{1,2}:\d{2}[^·\n]*\/[\s\S]{0,20}?\d{1,2}:\d{2}/.test(h);
+      out = uniq.length ? (slots ? uniq.slice(0, 2).join(' · ') : uniq[0])
+                        : h.split(/[·(/]/)[0].trim();
+    }
+    // 휴무는 "몇 시에 열나"보다 더 중요한 정보다. 요일까지 살려 둔다.
+    var shut = [];
+    if (/휴무/.test(h)) {
+      var d = h.match(/[월화수목금토일](?:요일)?\s*휴무/g);
+      shut = d && d.length ? [d.join(' ')] : ['휴무 있음'];
+    }
+    return { t: out + (shut.length ? ' · ' + shut[0] : ''), shut: shut.length > 0 };
+  }
+  document.querySelectorAll('.food button[data-key]').forEach(function (btn) {
+    if (btn.querySelector('.food__n')) return;
+    var d = R[btn.getAttribute('data-key')];
+    var name = btn.textContent.replace(/[▾▴]\s*$/, '').trim();
+    var h = d ? chipHours(d.h) : null;
+    btn.innerHTML = '<span class="food__n"><span></span><i class="food__c" aria-hidden="true">▾</i></span>' +
+      (h ? '<small class="food__h"' + (h.shut ? ' data-shut="1"' : '') + '></small>' : '');
+    btn.querySelector('.food__n > span').textContent = name;
+    if (h) btn.querySelector('.food__h').textContent = h.t;
+  });
+
   // 점심 선택 칩
   document.querySelectorAll('.food').forEach(function (group) {
     group.addEventListener('click', function (e) {
@@ -4203,7 +4251,8 @@ html.js .reveal.in{opacity:1;transform:none}
       if (!btn || !btn.getAttribute('data-key')) return;
       group.querySelectorAll('button').forEach(function (b) { b.classList.remove('is-on'); });
       btn.classList.add('is-on');
-      openRestaurant(btn.getAttribute('data-key'), btn.textContent.replace(/[▾▴]\s*$/, ''));
+      var nm = btn.querySelector('.food__n > span');
+      openRestaurant(btn.getAttribute('data-key'), nm ? nm.textContent : btn.textContent.trim());
     });
   });
 
