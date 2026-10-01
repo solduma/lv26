@@ -270,6 +270,12 @@ section{position:relative}
 .day__more:hover{border-color:var(--gold);background:rgba(255,200,87,.16)}
 .day__more span{font-size:1rem;line-height:1}
 .day__where{margin-top:14px;font-size:0.875rem;color:var(--dim);line-height:1.6}
+/* 하루의 이동량. 산발적으로 흩어져 있던 주행 시간을 레일 한 곳에 모은다. */
+.day__drive{margin-top:13px;padding-top:11px;border-top:1px dashed var(--line-soft);
+  font-size:0.8125rem;color:var(--muted);line-height:1.55}
+.day__drive b{display:block;margin-bottom:3px;color:var(--gold);
+  font-size:0.6875rem;font-weight:700;letter-spacing:0.1em}
+.day__drive[data-long="1"] b{color:var(--accent)}
 .day__where strong{display:block;color:var(--text);font-size:0.9375rem;margin-bottom:2px}
 
 /* 타임라인 */
@@ -839,7 +845,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="kv">
         <div class="kv__row"><span class="kv__k">숙소 일정</span><span class="kv__v">Mandalay Bay 2박(11/27–28) → MGM Grand 5박(11/29–12/3) → Springdale 1박(12/4) → Page 2박(12/5–6) → Grand Canyon Village 2박(12/7–8)</span></div>
         <div class="kv__row"><span class="kv__k">렌터카 구간</span><span class="kv__v">MGM → LAS 공항 약 15–25분 · LAS → Springdale 약 165마일 / 2시간 45분 · Springdale → Page 약 110마일/2시간 · Page → 그랜드캐니언 약 180마일/3시간 15분 · 그랜드캐니언 → LAS 공항 약 275마일/4시간 45분</span></div>
-        <div class="kv__row"><span class="kv__k">총 주행</span><span class="kv__v">약 740마일(약 1,190km). 실제 시간은 toll(통행료) 구간과 절벽 노선 때문에 평소보다 20~30% 더 잡으세요.</span></div>
+        <div class="kv__row"><span class="kv__k">총 주행</span><span class="kv__v">약 740마일(약 1,190km). 장거리 4구간(스프링데일·페이지·그랜드캐니언·공항으로 돌아오는 길)이 730마일이고 여기에 공항·호텔 간 이동 약 10마일을 더한 값입니다. 실제 시간은 toll(통행료) 구간과 절벽 노선 때문에 평소보다 20~30% 더 잡으세요.</span></div>
         <div class="kv__row"><span class="kv__k">시차</span><span class="kv__v">라스베이거스는 <b>PST(UTC−8)</b>이고, 스프링데일(유타)·페이지·그랜드캐니언(애리조나)은 <b>MST(UTC−7)</b>입니다. 세 주는 서머타임을 쓰지 않으므로 <b>12/4에 유타로 넘어갈 때만 시계가 1시간 앞으로 갑니다.</b> 나머지 구간은 바꿀 필요가 없습니다.</span></div>
         <div class="kv__row"><span class="kv__k">기상</span><span class="kv__v">11월 말 – 12월 초 낮 기온 약 10°C, 새벽·일몰 직후 약 −2~3°C. 그랜드캐니언 남림은 해발 2,100m라 체감은 더 쌀쌀합니다. 방한용 겉옷 필수.</span></div>
       </div>
@@ -876,7 +882,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 1<span>11월 27일 · 금</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>Mandalay Bay 2박 구간<br>체크인 14:00</p>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>공항 → 만달레이베이 차 20~30분 · 10km<br>그 뒤로는 트램·도보</p>
+      </aside>
     <div>
       <p class="kicker">Day 1 · Arrival</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">비행기 내리고, 분수쇼로 하루를 닫다</h2>
@@ -978,7 +986,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 2<span>11월 28일 · 토</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>Mandalay Bay 2박 구간<br>Sphere + 저녁 자유</p>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>차 없음<br>트램·도보 5~20분</p>
+      </aside>
     <div>
       <p class="kicker">Day 2 · Sphere</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">가장 비싼 예약 하나, 그리고 저녁은 비었다</h2>
@@ -1066,7 +1076,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 3<span>11월 29일 · 일</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>MGM Grand 5박<br>오후 체크인 · 18:30 O 쇼 (벨라지오)</p>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>만달레이베이 → MGM Grand 셔틀·택시<br>MGM ↔ 벨라지오 도보 15분</p>
+      </aside>
     <div>
       <p class="kicker">Day 3 · MGM &amp; O</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">호텔을 옮기고, 가장 화려한 밤을 보내기</h2>
@@ -1181,7 +1193,9 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="day__badge">DAY 4<span>11월 30일 · 월</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>MGM Grand 5박<br>아무것도 안 해도 되는 날</p>
       <a class="day__more" href="#vgday">이 날 다른 선택지 보기 <span aria-hidden="true">→</span></a>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>차 없음<br>리조트 안에서 도보·리프트</p>
+      </aside>
     <div>
       <p class="kicker">Day 4 · Slow Day</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">리조트 안에서만 보내는 하루</h2>
@@ -1252,7 +1266,9 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="day__badge">DAY 5<span>12월 1일 · 화</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>MGM Grand 5박<br>호텔에서 엑시브</p>
       <a class="day__more" href="#vgday">이 날 다른 선택지 보기 <span aria-hidden="true">→</span></a>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>차 없음<br>MGM ↔ 벨라지오 도보 15분</p>
+      </aside>
     <div>
       <p class="kicker">Day 5 · Conservatory</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">호텔 안에서 꾸며진 정원, 벨라지오의 계절</h2>
@@ -1332,7 +1348,9 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="day__badge">DAY 6<span>12월 2일 · 수</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>MGM Grand 5박<br>전면 휴식</p>
       <a class="day__more" href="#vgday">이 날 다른 선택지 보기 <span aria-hidden="true">→</span></a>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>차 없음<br>호텔 안에서만 이동</p>
+      </aside>
     <div>
       <p class="kicker">Day 6 · Rest</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">도로를 타기 전, 몸을 비우는 하루</h2>
@@ -1391,7 +1409,9 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="day__badge">DAY 7<span>12월 3일 · 목</span></div>
       <p class="day__where"><strong>라스베이거스 · LAS</strong>MGM Grand 마지막 날<br>짐 싸기</p>
       <a class="day__more" href="#vgday">이 날 다른 선택지 보기 <span aria-hidden="true">→</span></a>
-    </aside>
+    
+      <p class="day__drive"><b>이동</b>차 없음<br>내일 공항으로 넘어갑니다</p>
+      </aside>
     <div>
       <p class="kicker">Day 7 · Free Day</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">자유시간, 그리고 내일의 길잡이</h2>
@@ -1456,7 +1476,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 8<span>12월 4일 · 금</span></div>
       <p class="day__where"><strong>라스베이거스 → 스프링데일</strong>Springdale 1박<br>자이언 남측 입구</p>
-    </aside>
+    
+      <p class="day__drive" data-long="1"><b>이동</b>MGM → 공항 15~25분<br>공항 → 스프링데일 165마일 2시간 45분</p>
+      </aside>
     <div>
       <p class="kicker">Day 8 · Road Trip</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">사막을 가로질러, 협곡의 입구까지</h2>
@@ -1570,7 +1592,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 9<span>12월 5일 · 토</span></div>
       <p class="day__where"><strong>스프링데일 → 페이지</strong>Page 2박<br>가장 알찬 하루</p>
-    </aside>
+    
+      <p class="day__drive" data-long="1"><b>이동</b>스프링데일 → 페이지 110마일 2시간<br>협곡 안에서는 차 10~15분</p>
+      </aside>
     <div>
       <p class="kicker">Day 9 · Zion → Horseshoe Bend</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">물이 있는 협곡, 말려버린 강바닥</h2>
@@ -1710,7 +1734,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 10<span>12월 6일 · 일</span></div>
       <p class="day__where"><strong>페이지 → 빅워터</strong>Page 2박<br>빛과 역사의 날</p>
-    </aside>
+    
+      <p class="day__drive" data-long="1"><b>이동</b>페이지 시내 기준 차 40~60분<br>안텔로프 투어 집결장까지</p>
+      </aside>
     <div>
       <p class="kicker">Day 10 · Antelope Canyon</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">빛이 떨어지는 틈, 강이 멈춘 벽</h2>
@@ -1833,7 +1859,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 11<span>12월 7일 · 월</span></div>
       <p class="day__where"><strong>페이지 → 그랜드캐니언</strong>Grand Canyon Village 2박<br>대협곡 첫인상</p>
-    </aside>
+    
+      <p class="day__drive" data-long="1"><b>이동</b>페이지 → 그랜드캐니언 180마일 3시간 15분</p>
+      </aside>
     <div>
       <p class="kicker">Day 11 · Grand Canyon</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">할리우드가 찍은 화면은 영화일 뿐, 여기 실물입니다</h2>
@@ -1984,7 +2012,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 12<span>12월 8일 · 화</span></div>
       <p class="day__where"><strong>그랜드캐니언</strong>Grand Canyon Village 2박<br>이 여행의 정점</p>
-    </aside>
+    
+      <p class="day__drive" data-long="1"><b>이동</b>협곡 안에서 차 10~15분<br>Mather Point 는 도보 2.5km</p>
+      </aside>
     <div>
       <p class="kicker">Day 12 · Sunrise to Stars</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">해가 뜨고, 협곡을 걷고, 별이 뜨다</h2>
@@ -2166,7 +2196,9 @@ html.js .reveal.in{opacity:1;transform:none}
     <aside class="day__rail">
       <div class="day__badge">DAY 13<span>12월 9일 · 수</span></div>
       <p class="day__where"><strong>그랜드캐니언 → LAS</strong>귀국<br>약 275마일</p>
-    </aside>
+    
+      <p class="day__drive" data-long="1"><b>이동</b>그랜드캐니언 → LAS 275마일 4시간 45분</p>
+      </aside>
     <div>
       <p class="kicker">Day 13 · Homeward</p>
       <h2 style="font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:22px">아침 산책 한 번, 그리고 4시간의 드라이브</h2>
@@ -3648,7 +3680,19 @@ html.js .reveal.in{opacity:1;transform:none}
           });
         });
       });
-      // 6) 참고 아코디언
+      // 6) 알림 문단 — 경고·체크리스트·주의가 모여 있는 자리다.
+      //    "Area 51 을 왜 뺐나" 같은 질문이 여기로만 답이 있어 색인에서 놓쳤다.
+      panel.querySelectorAll('.note').forEach(function (n) {
+        var txt = norm(n.textContent);
+        if (txt.length < 6) return;
+        var warn = n.classList.contains('note--warn');
+        FIND.push({
+          panel: pk, el: n, kind: warn ? '주의' : '참고', scope: '',
+          label: (warn ? '⚠ ' : '') + clip(txt, 46),
+          text: txt, raw: txt, title: clip(txt, 30).toLowerCase()
+        });
+      });
+      // 7) 참고 아코디언
       panel.querySelectorAll('.acc__i').forEach(function (a) {
         var q = a.querySelector('.acc__q');
         var ql = norm((q || a).textContent).slice(0, 60);
